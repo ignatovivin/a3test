@@ -1,0 +1,743 @@
+/**
+ * Стили личного кабинета — по Figma «Поставщик» node-id=219-3924
+ */
+
+/* Фон страницы; горизонтальный скролл убираем (100vw даёт overflow из-за scrollbar) */
+html {
+  overflow-x: hidden;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--color-bg-page);
+  overflow-x: hidden;
+}
+
+#root,
+.app-root {
+  width: 100%;
+  overflow-x: hidden;
+}
+
+.page-layout {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+.cabinet-sidebar-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 99;
+  border: none;
+  padding: 0;
+  background: rgba(0, 0, 0, 0.4);
+  cursor: pointer;
+}
+
+/* ========== Layout ========== */
+/* Контентный блок (сайдбар + контент) — фиксированная ширина; высота = оставшееся под хедером */
+.cabinet {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  width: 100%;
+  max-width: var(--cabinet-container-width);
+  margin-left: auto;
+  margin-right: auto;
+  background: var(--color-bg-page);
+  color: var(--color-text-primary);
+  font-family: var(--font-sans);
+}
+
+.cabinet__body {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+}
+
+/* ========== Sidebar — Figma node 219:3925 (Sidebar Menu) ========== */
+/* Высота сайдбара = высота области под хедером (растягивается по .cabinet__body) */
+.cabinet-sidebar {
+  width: var(--sidebar-width);
+  min-width: var(--sidebar-width);
+  min-height: 0;
+  align-self: stretch;
+  padding: 24px 0 var(--sidebar-padding-bottom);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 10px;
+  flex-shrink: 0;
+  margin-left: var(--sidebar-margin-x);
+  font-weight: 600;
+}
+
+/* layout_WH59CO: Items menu — column, stretch, gap 16px */
+.cabinet-sidebar__nav {
+  display: flex;
+  flex-direction: column;
+  align-self: stretch;
+  gap: 16px;
+  flex-shrink: 0;
+  overflow-y: auto;
+}
+
+/* Пункт меню: иконка и текст в одну строку, выровнены по горизонтали по центру */
+.cabinet-sidebar__link {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  align-self: stretch;
+  gap: 16px;
+  padding: 8px 0;
+  color: var(--color-text-primary);
+  text-decoration: none;
+  font-size: var(--text-button-font-size);
+  font-weight: 600;
+  line-height: 1;
+  transition: opacity 0.15s;
+}
+
+.cabinet-sidebar__link:hover {
+  color: var(--color-primary); /* Day/Blue/90 */
+}
+
+.cabinet-sidebar__link--active {
+  color: var(--color-primary);
+}
+
+/* Иконка 24×24: по центру по горизонтали с текстом */
+.cabinet-sidebar__link-icon {
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: inherit;
+}
+
+.cabinet-sidebar__link-icon svg {
+  display: block;
+  width: 24px;
+  height: 24px;
+}
+
+/* layout_X8BTGK: Button + Text — column, stretch, gap 24px */
+.cabinet-sidebar__footer {
+  display: flex;
+  flex-direction: column;
+  align-self: stretch;
+  gap: 24px;
+  flex-shrink: 0;
+}
+
+/* Кнопка в сайдбаре — полная ширина, визуал только из компонента Button (secondary M) */
+.cabinet-sidebar__btn {
+  align-self: stretch;
+  width: 100%;
+  box-sizing: border-box;
+  /* Не переопределяем padding, font, border, background, color — всё из Button.css */
+}
+
+/* layout_CHB0JF: Icon + Text — row, align center, gap 16px; icon 32×32, text Captions 3, Day/Gray/90 */
+.cabinet-sidebar__caption-wrap {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  align-self: stretch;
+  gap: 16px;
+}
+
+.cabinet-sidebar__caption-icon {
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+  color: var(--color-text-muted);
+}
+
+.cabinet-sidebar__caption-icon svg {
+  width: 100%;
+  height: 100%;
+}
+
+.cabinet-sidebar__caption {
+  font-size: var(--text-caption3-font-size);
+  font-weight: 500;
+  line-height: var(--text-caption3-line-height);
+  color: var(--color-text-secondary);
+  margin: 0;
+}
+
+/* ========== Main area ========== */
+.cabinet-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  margin-left: 132px;
+  width: var(--main-width);
+  max-width: 100%;
+}
+
+/* ========== Header — независим от контентного блока, фон на весь экран ========== */
+.cabinet-header-wrap {
+  position: relative;
+  width: 100vw;
+  margin-left: calc(-50vw + 50%);
+  overflow: visible;
+}
+
+/* Полоса фона на весь экран (заполняет обёртку) */
+.cabinet-header__bg {
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  background: var(--color-white);
+  z-index: 0;
+  pointer-events: none;
+}
+
+.cabinet-header {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: var(--cabinet-container-width);
+  margin-left: auto;
+  margin-right: auto;
+  padding: var(--header-padding);
+  background: transparent;
+}
+
+.cabinet-header__top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px; /* расстояние от кнопки (дропдаун) до иконок */
+  flex-wrap: wrap;
+}
+
+.cabinet-header__left {
+  display: flex;
+  align-items: center;
+  gap: var(--header-left-gap-dropdown);
+}
+
+.cabinet-header__menu-wrap {
+  display: flex;
+  align-items: center;
+}
+
+.cabinet-header__menu-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--header-icon-btn-size);
+  height: var(--header-icon-btn-size);
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  color: var(--color-text-primary);
+  padding: 0;
+}
+
+.cabinet-header__menu-btn:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+.cabinet-header__menu-btn svg {
+  width: var(--header-icon-size);
+  height: var(--header-icon-size);
+}
+
+.cabinet-header__tags {
+  display: flex;
+  align-items: center;
+  gap: var(--header-left-gap);
+}
+
+.cabinet-header__logo {
+  display: block;
+  height: 44px;
+  width: auto;
+  object-fit: contain;
+}
+
+.cabinet-header__tag {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 16px;
+  height: 40px;
+  border-radius: var(--radius-pill);
+  font-size: var(--text-button-font-size);
+  font-weight: var(--text-button-font-weight);
+  line-height: var(--text-button-line-height);
+  white-space: nowrap;
+}
+
+.cabinet-header__tag--brand {
+  background: var(--color-primary);
+  color: var(--color-white);
+}
+
+.cabinet-header__tag--cabinet {
+  background: var(--color-primary-tint);
+  color: var(--color-primary);
+}
+
+/* Текст дропдауна — Body 16px, вес легче (400), 1.5 */
+.cabinet-header__dropdown {
+  display: flex;
+  align-items: center;
+  gap: var(--header-left-gap);
+  padding: var(--header-dropdown-padding);
+  background: var(--color-white);
+  border: none;
+  border-radius: var(--radius-md);
+  font-size: var(--text-body-font-size);
+  font-weight: 400;
+  line-height: var(--text-body-line-height);
+  color: var(--color-text-primary);
+  cursor: pointer;
+  font-family: inherit;
+  min-width: var(--header-dropdown-min-width);
+}
+
+.cabinet-header__dropdown:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+.cabinet-header__dropdown svg {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+}
+
+.cabinet-header__icons {
+  display: flex;
+  align-items: center;
+  gap: var(--header-left-gap);
+}
+
+.cabinet-header__icon-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--header-icon-btn-size);
+  height: var(--header-icon-btn-size);
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  color: var(--color-primary);
+  padding: 0;
+}
+
+.cabinet-header__icon-btn:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+/* Иконки справа в хедере — 24×24, не сжимать */
+.cabinet-header__icon-btn svg {
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+}
+
+.cabinet-header__profile {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 0 4px;
+  width: auto;
+  min-width: var(--header-icon-btn-size);
+}
+
+.cabinet-header__profile svg:first-child {
+  width: 24px;
+  height: 24px;
+  min-width: 24px;
+  min-height: 24px;
+  flex-shrink: 0;
+}
+
+.cabinet-header__profile svg:last-child {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+}
+
+/* Разделитель по низу хедера (обёртка = высота хедера, линия по низу) */
+.cabinet-header__divider {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  height: 1px;
+  margin: 0;
+  padding: 0;
+  border: none;
+  background: var(--color-border);
+}
+
+/* ========== Content ========== */
+.cabinet-content {
+  flex: 1;
+  padding: 24px var(--sidebar-margin-x) var(--content-gap) 0;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--content-gap);
+}
+
+/* ========== Slider — Figma node 219:3927 ========== */
+/* layout_W8S8XB: column, center, gap 16px, padding 16px 20px, Day/White, stroke Day/Gray/10, radius 16px */
+.cabinet-slider {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  align-self: stretch;
+  gap: 16px;
+  padding: 16px 20px;
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+}
+
+.cabinet-slider__track {
+  width: 100%;
+  overflow: hidden;
+}
+
+.cabinet-slider__list {
+  display: flex;
+  width: 100%;
+  align-items: stretch;
+  transition: transform 0.4s ease-in-out;
+}
+
+/* Контент прижат к низу; высота слайда = высоте контента (баннер 192px), без лишнего отступа сверху */
+.cabinet-slider__slide {
+  flex: 0 0 100%;
+  width: 100%;
+  min-width: 0;
+  min-height: 192px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+.cabinet-slider__inner {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+  width: 100%;
+}
+
+/* Текстовый блок слева: заголовок, подзаголовок, кнопка — всё по левому краю */
+.cabinet-slider__text {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 24px;
+  max-width: 660px;
+  width: 100%;
+}
+
+/* Заголовок и подзаголовок — небольшой отступ между ними */
+.cabinet-slider__text-block {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.cabinet-slider__title {
+  font-size: var(--text-h3-font-size);
+  font-weight: var(--text-h3-font-weight);
+  line-height: var(--text-h3-line-height);
+  color: var(--color-text-primary);
+  margin: 0;
+}
+
+.cabinet-slider__subtitle {
+  font-size: var(--text-caption1-font-size);
+  font-weight: 500;
+  line-height: var(--text-caption1-line-height);
+  color: var(--color-text-secondary);
+  margin: 0;
+}
+
+/* Кнопка в слайдере — компонент Button (Primary M) */
+
+/* Баннер справа: фиксированная высота, по вертикали по центру с текстом (как в референсе) */
+.cabinet-slider__banner {
+  width: 220px;
+  height: 192px;
+  border-radius: 16px;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+.cabinet-slider__banner-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* layout_YZWJB4: Pagination — row center; layout_PQR4T8: row center, gap 10px, padding 7px; dot 10×10, active Day/Blue/70 */
+.cabinet-slider__pagination {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.cabinet-slider__pagination-inner {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+  padding: 7px;
+}
+
+.cabinet-slider__dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: none;
+  padding: 0;
+  background: var(--color-border);
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.cabinet-slider__dot:hover {
+  background: var(--color-text-muted);
+}
+
+.cabinet-slider__dot--active {
+  background: var(--color-primary-light);
+}
+
+/* ========== Block «Подключенные банки» — Figma node 219:4011 ========== */
+/* layout_RXPY5Y: column, stretch, gap 16px, padding 16px 20px 12px, Day/White, stroke Day/Gray/10, radius 16px */
+.cabinet-block {
+  display: flex;
+  flex-direction: column;
+  align-self: stretch;
+  gap: 16px;
+  padding: 16px 20px 12px;
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+}
+
+/* layout_L050Z4: Activity Title row — space-between, center, gap 16px */
+.cabinet-block__header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  align-self: stretch;
+  gap: 16px;
+}
+
+.cabinet-block__title {
+  font-size: var(--text-subtitle1-font-size);
+  font-weight: var(--text-subtitle1-font-weight);
+  line-height: var(--text-subtitle1-line-height);
+  color: var(--color-text-primary);
+  margin: 0;
+}
+
+/* layout_TL35KD: All filter — row, center, gap 4px, padding 0 0 0 8px, #F9F9F9, radius 8px, Captions 3 */
+.cabinet-block__filter {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 4px;
+  padding: 0 0 0 8px;
+  background: var(--color-bg-card-alt);
+  border-radius: var(--radius-md);
+  font-size: var(--text-caption3-font-size);
+  font-weight: var(--text-caption3-font-weight);
+  line-height: var(--text-caption3-line-height);
+  color: var(--color-text-secondary);
+}
+
+.cabinet-block__filter-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  padding: 3px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  color: var(--color-text-secondary);
+}
+
+/* layout_CA5OMX: Bank Cards Container — column, stretch, gap 8px */
+/* Сетка 3 колонки: карточки растягиваются по ширине ячейки, пустая ячейка не заполняется */
+.cabinet-block__banks {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  align-self: stretch;
+}
+
+.cabinet-bank-card {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 12px 16px;
+  background: var(--color-bg-card-alt);
+  border-radius: var(--radius-lg);
+  min-width: 0;
+}
+
+/* layout_ND8M8W: Bank Logo Container — 32×32, padding 10px 11px, radius 8px */
+.cabinet-bank-card__logo {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-md);
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.cabinet-bank-card__logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+.cabinet-bank-card__name {
+  font-size: var(--text-caption1-font-size);
+  font-weight: var(--text-caption1-font-weight);
+  line-height: var(--text-caption1-line-height);
+  color: var(--color-text-primary);
+  margin: 0;
+}
+
+/* layout_0UK94G: Connect Bank Button — column, center, gap 12px */
+.cabinet-block__footer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  align-self: stretch;
+  gap: 12px;
+}
+
+/* layout_OWROYC: Divider — height 1, Day/Gray/10 */
+.cabinet-block__divider {
+  width: 100%;
+  height: 1px;
+  background: var(--color-border);
+  border: none;
+  margin: 0;
+}
+
+/* Кнопка «Подключить банк» — компонент Button (Ghost S) */
+
+/* ========== Placeholder / вложенные страницы ========== */
+.cabinet-placeholder {
+  margin: 0;
+}
+
+.cabinet-placeholder__title {
+  font-size: var(--text-h3-font-size);
+  font-weight: var(--text-h3-font-weight);
+  line-height: var(--text-h3-line-height);
+  color: var(--color-text-primary);
+  margin: 0 0 8px;
+}
+
+.cabinet-placeholder__subtitle {
+  font-size: var(--text-caption1-font-size);
+  font-weight: var(--text-caption1-font-weight);
+  line-height: var(--text-caption1-line-height);
+  color: var(--color-text-secondary);
+  margin: 0;
+}
+
+/* ========== Адаптив ========== */
+@media (min-width: 1024px) {
+  .cabinet-header__menu-wrap {
+    display: none;
+  }
+}
+
+@media (max-width: 1279px) {
+  .cabinet-main {
+    margin-left: 24px;
+    width: 100%;
+  }
+  .cabinet-content {
+    padding-right: var(--sidebar-margin-x);
+  }
+}
+
+@media (max-width: 1023px) {
+  .cabinet__body {
+    flex-direction: column;
+  }
+
+  .cabinet-sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    margin-left: 0;
+    min-height: 0;
+    padding: 24px 16px 16px;
+    background: var(--color-bg-page);
+    border-right: 1px solid var(--color-border);
+    z-index: 100;
+    transform: translateX(-100%);
+    transition: transform 0.2s;
+  }
+
+  .cabinet-sidebar.is-open {
+    transform: translateX(0);
+  }
+
+  .cabinet-main {
+    margin-left: 0;
+    width: 100%;
+  }
+
+  .cabinet-header__left {
+    gap: 16px;
+  }
+
+  .cabinet-header__logo {
+    max-width: 120px;
+    height: 36px;
+  }
+
+  .cabinet-slider__inner {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

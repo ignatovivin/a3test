@@ -1,0 +1,28 @@
+/**
+ * Mont — только используемые начертания (синхронизировано с design-tokens)
+ * 400 Regular, 600 SemiBold, 700 Bold
+ */
+
+@font-face {
+  font-family: 'Mont';
+  src: url('./Mont-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Mont';
+  src: url('./Mont-SemiBold.ttf') format('truetype');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Mont';
+  src: url('./Mont-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}

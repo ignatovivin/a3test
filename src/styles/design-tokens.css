@@ -1,0 +1,95 @@
+/**
+ * Design tokens — из Figma «Ресерч, рефы, презы» node-id=219-3924 (Поставщик)
+ * Получено через Framelink MCP get_figma_data
+ */
+
+:root {
+  /* ========== Цвета — Figma Day/Gray ========== */
+  --color-bg-page: #FCFCFC;        /* Day/Gray/5 */
+  --color-bg-card: #FFFFFF;        /* Day/White */
+  --color-bg-card-alt: #F9F9F9;    /* fill_FTRV1Y */
+  --color-border: #EEEEEE;        /* Day/Gray/10 */
+  --color-border-stroke: #EEEEEE;  /* Day/Gray/10, strokes */
+  --color-text-muted: #D6D6D6;    /* Day/Gray/70 */
+  --color-text-secondary: #7C8A9E; /* Day/Gray/90 */
+  --color-text-primary: #2C2E2B;  /* Day/Gray/100 */
+
+  /* ========== Цвета — Figma Day/Blue ========== */
+  --color-primary: #69A6F1;       /* Day/Blue/90 — кнопки, ссылки */
+  --color-primary-80: #72ADF8;    /* Day/Blue/80 — обводка при ховере */
+  --color-primary-dark: #4B8BDA;  /* Day/Blue/100 */
+  --color-primary-light: #79B5FF; /* Day/Blue/70 */
+  --color-primary-tint: #E8F0FE;  /* светлый фон (теги, бейджи) */
+  --color-on-primary: #FFFFFF;    /* текст на синем */
+
+  /* ========== Цвета — доп. из Figma ========== */
+  --color-button-secondary-bg: transparent; /* outline: прозрачный фон, синяя обводка */
+  --color-button-secondary-hover-bg: rgba(105, 166, 241, 0.12); /* Day/Blue/90 лёгкий ховер */
+  --color-bank-alfa: #CA3333;     /* fill_XLYR4O */
+  --color-bank-ozon: #005BFF;     /* fill_4KH2OM */
+  --color-white: #FFFFFF;
+
+  /* ========== Типографика — Mont (локальные шрифты src/assets/fonts) ========== */
+  --font-sans: "Mont", system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  /* Title/H3 — Mont 700, 32px, 1.25 */
+  --text-h3-font-size: 32px;
+  --text-h3-font-weight: 600;
+  --text-h3-line-height: 1.25;
+
+  /* desktop/Subtitle/Subtitle 1 — Mont 700, 20px, 1.7 */
+  --text-subtitle1-font-size: 20px;
+  --text-subtitle1-font-weight: 600;
+  --text-subtitle1-line-height: 1.7;
+
+  /* desktop/Buttons/ButtonS — Andromeda UI Kit node 870-1953: Mont 500, 14px, 1.57 */
+  --text-button-font-size: 14px;
+  --text-button-font-weight: 500;
+  --text-button-line-height: 1.57142857;
+
+  /* desktop/Captions/Captions 1 — Mont 600, 14px, 1.29 */
+  --text-caption1-font-size: 14px;
+  --text-caption1-font-weight: 600;
+  --text-caption1-line-height: 1.28571429;
+
+  /* desktop/Captions/Captions 3 — Mont 600, 12px, 1.5 */
+  --text-caption3-font-size: 12px;
+  --text-caption3-font-weight: 600;
+  --text-caption3-line-height: 1.5;
+
+  /* Body/BodyM — Mont 500, 16px, 1.5 */
+  --text-body-font-size: 16px;
+  --text-body-font-weight: 500;
+  --text-body-line-height: 1.5;
+
+  /* ========== Радиусы из Figma ========== */
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-pill: 100px;
+
+  /* ========== Layout из Figma (1440) ========== */
+  --cabinet-container-width: 1440px; /* весь блок: шапка + сайдбар + контент */
+  --header-height: 120px;
+  --sidebar-width: 216px;
+  --sidebar-margin-x: 32px;
+  --main-margin-left: 380px;   /* 32 + 216 + 132 gap */
+  --main-width: 1028px;
+  /* Header — Figma node 219-4075 */
+  --header-padding: 20px 32px;
+  --header-top-gap: 18px;
+  --header-left-gap: 16px;
+  --header-left-gap-dropdown: 157px;
+  --header-icon-size: 24px;
+  --header-icon-btn-size: 40px;
+  --header-dropdown-min-width: 260px;
+  --header-dropdown-padding: 10px 16px;
+  --sidebar-padding-bottom: 16px;
+  --sidebar-gap: 10px;
+  --menu-item-gap: 16px;
+  --menu-item-padding-y: 8px;
+  --content-gap: 16px;
+  --slider-padding: 16px 20px;
+  --block-padding: 16px 20px 12px;
+}
