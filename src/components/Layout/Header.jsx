@@ -76,13 +76,15 @@ export function Header() {
         <div className="cabinet-header__top">
           <div className="cabinet-header__left">
             <div className="cabinet-header__tags">
-              <img
-                src="/tags.svg"
-                alt="a3 личный кабинет"
-                className="cabinet-header__logo"
-                width="191"
-                height="44"
-              />
+              <Link to="/" className="cabinet-header__logo-link" aria-label="На главную">
+                <img
+                  src="/tags.svg"
+                  alt="a3 личный кабинет"
+                  className="cabinet-header__logo"
+                  width="191"
+                  height="44"
+                />
+              </Link>
             </div>
             <div className="cabinet-header__dropdown-wrap" ref={dropdownRef}>
               <button

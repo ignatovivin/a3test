@@ -299,6 +299,12 @@ body.body-scroll-lock .cabinet-header-wrap {
   gap: var(--header-left-gap);
 }
 
+.cabinet-header__logo-link {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+
 .cabinet-header__logo {
   display: block;
   height: 44px;
