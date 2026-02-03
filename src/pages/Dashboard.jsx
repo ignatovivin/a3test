@@ -35,11 +35,22 @@ const SLIDER_AUTOPLAY_MS = 5000
 /* Слайды + клон первого в конце для бесконечного цикла (без перемотки справа налево) */
 const SLIDES_WITH_CLONE = [...SLIDES, SLIDES[0]]
 
+const MOBILE_BREAKPOINT = 639
+
 export function Dashboard() {
   const [currentSlide, setCurrentSlide] = useState(0)
   const [isJumping, setIsJumping] = useState(false)
   const [banksModalOpen, setBanksModalOpen] = useState(false)
+  const [isMobile, setIsMobile] = useState(false)
   const listRef = useRef(null)
+
+  useEffect(() => {
+    const mql = window.matchMedia(`(max-width: ${MOBILE_BREAKPOINT}px)`)
+    const handle = () => setIsMobile(mql.matches)
+    handle()
+    mql.addEventListener('change', handle)
+    return () => mql.removeEventListener('change', handle)
+  }, [])
 
   /* Автовоспроизведение: с последнего переходим на клон первого, затем мгновенно на первый */
   useEffect(() => {
@@ -109,7 +120,9 @@ export function Dashboard() {
                 <div className="cabinet-slider__inner">
                   <div className="cabinet-slider__text">
                     <div className="cabinet-slider__text-block">
-                      <h2 className="cabinet-slider__title">{slide.title}</h2>
+                      <h2 className="cabinet-slider__title">
+                        {isMobile && slide.title === 'Единый реестр платежей' ? 'Реестр платежей' : slide.title}
+                      </h2>
                       <p className="cabinet-slider__subtitle">{slide.subtitle}</p>
                     </div>
                     <Button type="button" variant="primary" size="m">
@@ -117,11 +130,17 @@ export function Dashboard() {
                     </Button>
                   </div>
                   <div className="cabinet-slider__banner">
-                    <img
-                      src="/slider-banner.png"
-                      alt=""
-                      className="cabinet-slider__banner-img"
-                    />
+                    <picture>
+                      <source
+                        media="(max-width: 639px)"
+                        srcSet="/slider-banner-mobile.png"
+                      />
+                      <img
+                        src="/slider-banner.png"
+                        alt=""
+                        className="cabinet-slider__banner-img"
+                      />
+                    </picture>
                   </div>
                 </div>
               </div>

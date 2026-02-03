@@ -38,10 +38,14 @@
   /* ========== Типографика — Mont (локальные шрифты src/assets/fonts) ========== */
   --font-sans: "Mont", system-ui, -apple-system, "Segoe UI", sans-serif;
 
-  /* Title/H3 — Mont 700, 32px, 1.25 */
+  /* Title/H3 — Mont 600, 32px, 1.25 (десктоп) */
   --text-h3-font-size: 32px;
   --text-h3-font-weight: 600;
   --text-h3-line-height: 1.25;
+
+  /* Title/H3 мобильный — 24px, 1.25 (использовать в @media max-width: 639px) */
+  --text-h3-mobile-font-size: 24px;
+  --text-h3-mobile-line-height: 1.25;
 
   /* desktop/Subtitle/Subtitle 1 — Mont 700, 20px, 1.7 */
   --text-subtitle1-font-size: 20px;
