@@ -3,7 +3,7 @@
  * Открывается по кнопкам «Все» и «Подключить банк».
  */
 
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { Button } from '../Button/Button'
 
 const CONNECTED_BANKS = [
@@ -39,12 +39,11 @@ export function BanksModal({ isOpen, onClose }) {
     )
     // Здесь позже можно заменить на реальный вызов API
     // или колбэк из пропсов, сейчас просто логируем.
-    // eslint-disable-next-line no-console
     console.log('Banks to connect:', selectedBanks)
     setShowSuccess(true)
   }
 
-  const handleClose = () => {
+  const handleClose = useCallback(() => {
     if (isClosing) return
     setIsClosing(true)
     setTimeout(() => {
@@ -53,7 +52,7 @@ export function BanksModal({ isOpen, onClose }) {
       setIsClosing(false)
       onClose()
     }, 200)
-  }
+  }, [isClosing, onClose])
   useEffect(() => {
     if (!isOpen) return
     const handleEscape = (e) => {
