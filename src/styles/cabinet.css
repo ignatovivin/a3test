@@ -57,6 +57,7 @@ body {
   display: flex;
   flex: 1;
   min-height: 0;
+  gap: var(--gap-sidebar-main);
 }
 
 /* ========== Sidebar — Figma node 219:3925 (Sidebar Menu) ========== */
@@ -179,9 +180,6 @@ body {
   display: flex;
   flex-direction: column;
   min-width: 0;
-  margin-left: 132px;
-  width: var(--main-width);
-  max-width: 100%;
 }
 
 /* ========== Header — независим от контентного блока, фон на весь экран ========== */
@@ -294,6 +292,11 @@ body {
   color: var(--color-primary);
 }
 
+/* Обёртка дропдауна — для позиционирования панели */
+.cabinet-header__dropdown-wrap {
+  position: relative;
+}
+
 /* Текст дропдауна — Body 16px, вес легче (400), 1.5 */
 .cabinet-header__dropdown {
   display: flex;
@@ -312,6 +315,11 @@ body {
   min-width: var(--header-dropdown-min-width);
 }
 
+.cabinet-header__dropdown.is-open svg {
+  transform: rotate(180deg);
+  color: var(--color-primary-80);
+}
+
 .cabinet-header__dropdown:focus-visible {
   outline: 2px solid var(--color-primary);
   outline-offset: 2px;
@@ -321,6 +329,52 @@ body {
   width: 20px;
   height: 20px;
   flex-shrink: 0;
+  transition: transform 0.2s;
+}
+
+/* Панель дропдауна */
+.cabinet-header__dropdown-panel {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  right: 0;
+  min-width: 100%;
+  background: var(--color-white);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  z-index: 10;
+  padding: 4px 0;
+}
+
+.cabinet-header__dropdown-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.cabinet-header__dropdown-item {
+  display: block;
+  width: 100%;
+  padding: 10px 16px;
+  border: none;
+  background: transparent;
+  font-size: var(--text-body-font-size);
+  font-weight: 400;
+  line-height: var(--text-body-line-height);
+  color: var(--color-text-primary);
+  text-align: left;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.15s;
+}
+
+.cabinet-header__dropdown-item:hover {
+  background: var(--color-bg-card-alt);
+}
+
+.cabinet-header__dropdown-item[aria-selected="true"] {
+  color: var(--color-primary);
 }
 
 .cabinet-header__icons {
@@ -575,23 +629,23 @@ body {
   padding: 0 0 0 8px;
   background: var(--color-bg-card-alt);
   border-radius: var(--radius-md);
+  border: none;
   font-size: var(--text-caption3-font-size);
   font-weight: var(--text-caption3-font-weight);
   line-height: var(--text-caption3-line-height);
   color: var(--color-text-secondary);
+  cursor: pointer;
+  font-family: inherit;
+  transition: color 0.15s;
 }
 
-.cabinet-block__filter-btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 24px;
-  height: 24px;
-  padding: 3px;
-  border: none;
-  background: transparent;
-  cursor: pointer;
-  color: var(--color-text-secondary);
+.cabinet-block__filter:hover {
+  color: var(--color-primary-80);
+}
+
+.cabinet-block__filter-chevron {
+  transform: rotate(-90deg);
+  flex-shrink: 0;
 }
 
 /* layout_CA5OMX: Bank Cards Container — column, stretch, gap 8px */
@@ -685,16 +739,6 @@ body {
 @media (min-width: 1024px) {
   .cabinet-header__menu-wrap {
     display: none;
-  }
-}
-
-@media (max-width: 1279px) {
-  .cabinet-main {
-    margin-left: 24px;
-    width: 100%;
-  }
-  .cabinet-content {
-    padding-right: var(--sidebar-margin-x);
   }
 }
 

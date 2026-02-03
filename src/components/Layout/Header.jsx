@@ -1,8 +1,32 @@
+import { useState, useEffect, useRef } from 'react'
 import { NotificationIcon } from '../icons/NotificationIcon'
 import { PersonalIcon } from '../icons/PersonalIcon'
 import { ArrowDownIcon } from '../icons/ArrowDownIcon'
 
+const DROPDOWN_OPTIONS = [
+  { id: '1', label: 'Заявка № 12345' },
+  { id: '2', label: 'Договор № 67890' },
+  { id: '3', label: 'Заявка № 11111' },
+]
+
 export function Header({ onMenuClick }) {
+  const [dropdownOpen, setDropdownOpen] = useState(false)
+  const [selectedOption, setSelectedOption] = useState(null)
+  const dropdownRef = useRef(null)
+
+  useEffect(() => {
+    if (!dropdownOpen) return
+    const handleClickOutside = (e) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
+        setDropdownOpen(false)
+      }
+    }
+    document.addEventListener('click', handleClickOutside)
+    return () => document.removeEventListener('click', handleClickOutside)
+  }, [dropdownOpen])
+
+  const displayLabel = selectedOption ? selectedOption.label : 'Выберите заявку или договор'
+
   return (
     <div className="cabinet-header-wrap">
       <div className="cabinet-header__bg" aria-hidden="true" />
@@ -34,10 +58,47 @@ export function Header({ onMenuClick }) {
                 height="44"
               />
             </div>
-            <button type="button" className="cabinet-header__dropdown" aria-haspopup="listbox" aria-expanded="false">
-              Выберите заявку или договор
-              <ArrowDownIcon />
-            </button>
+            <div className="cabinet-header__dropdown-wrap" ref={dropdownRef}>
+              <button
+                type="button"
+                className={`cabinet-header__dropdown ${dropdownOpen ? 'is-open' : ''}`}
+                aria-haspopup="listbox"
+                aria-expanded={dropdownOpen}
+                aria-controls="header-dropdown-list"
+                id="header-dropdown-button"
+                onClick={() => setDropdownOpen((v) => !v)}
+              >
+                <span>{displayLabel}</span>
+                <ArrowDownIcon />
+              </button>
+              {dropdownOpen && (
+                <div
+                  className="cabinet-header__dropdown-panel"
+                  role="listbox"
+                  id="header-dropdown-list"
+                  aria-labelledby="header-dropdown-button"
+                >
+                  <ul className="cabinet-header__dropdown-list">
+                    {DROPDOWN_OPTIONS.map((opt) => (
+                      <li key={opt.id}>
+                        <button
+                          type="button"
+                          role="option"
+                          aria-selected={selectedOption?.id === opt.id}
+                          className="cabinet-header__dropdown-item"
+                          onClick={() => {
+                            setSelectedOption(opt)
+                            setDropdownOpen(false)
+                          }}
+                        >
+                          {opt.label}
+                        </button>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+            </div>
           </div>
           <div className="cabinet-header__icons">
             <button type="button" aria-label="Уведомления" className="cabinet-header__icon-btn">

@@ -16,7 +16,8 @@
 
   /* ========== Цвета — Figma Day/Blue ========== */
   --color-primary: #69A6F1;       /* Day/Blue/90 — кнопки, ссылки */
-  --color-primary-80: #72ADF8;    /* Day/Blue/80 — обводка при ховере */
+  --color-primary-90: #69A6F1;   /* Day/Blue/90 — дефолт ghost-кнопки */
+  --color-primary-80: #72ADF8;   /* Day/Blue/80 — ховер ghost-кнопки */
   --color-primary-dark: #4B8BDA;  /* Day/Blue/100 */
   --color-primary-light: #79B5FF; /* Day/Blue/70 */
   --color-primary-tint: #E8F0FE;  /* светлый фон (теги, бейджи) */
@@ -74,6 +75,7 @@
   --header-height: 120px;
   --sidebar-width: 216px;
   --sidebar-margin-x: 32px;
+  --gap-sidebar-main: 132px;   /* отступ между сайдбаром и основным контентом */
   --main-margin-left: 380px;   /* 32 + 216 + 132 gap */
   --main-width: 1028px;
   /* Header — Figma node 219-4075 */

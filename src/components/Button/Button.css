@@ -68,14 +68,14 @@
   outline-offset: 2px;
 }
 
-/* Ghost — transparent, primary text */
+/* Ghost — transparent: дефолт Blue/90, ховер Blue/80 */
 .btn--ghost {
   background: transparent;
-  color: var(--color-primary);
+  color: var(--color-primary-90);
 }
 
 .btn--ghost:hover:not(:disabled) {
-  opacity: 0.8;
+  color: var(--color-primary-80);
 }
 
 .btn--ghost:focus-visible {

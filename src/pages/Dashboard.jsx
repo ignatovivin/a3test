@@ -144,14 +144,12 @@ export function Dashboard() {
       <section className="cabinet-block">
         <div className="cabinet-block__header">
           <h3 className="cabinet-block__title">Подключенные банки</h3>
-          <div className="cabinet-block__filter">
+          <button type="button" className="cabinet-block__filter" aria-label="Фильтр: Все">
             <span>Все</span>
-            <button type="button" className="cabinet-block__filter-btn" aria-label="Развернуть">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <polyline points="6 9 12 15 18 9" />
-              </svg>
-            </button>
-          </div>
+            <svg className="cabinet-block__filter-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden>
+              <polyline points="6 9 12 15 18 9" />
+            </svg>
+          </button>
         </div>
         <div className="cabinet-block__banks">
           {BANKS.map((bank) => (
