@@ -19,14 +19,6 @@ const navItems = [
   { to: '/validation', label: 'Настройка валидации', end: false, icon: 'setting' },
 ]
 
-function IconPlaceholder({ className }) {
-  return (
-    <svg className={className} width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-      <rect x="3" y="3" width="18" height="18" rx="2" />
-    </svg>
-  )
-}
-
 export function Sidebar({ isOpen, onClose }) {
   return (
     <aside
@@ -51,7 +43,6 @@ export function Sidebar({ isOpen, onClose }) {
             {icon === 'payment' && <PaymentIcon className="cabinet-sidebar__link-icon" />}
             {icon === 'qr' && <QrIcon className="cabinet-sidebar__link-icon" />}
             {icon === 'calendar' && <CalendarIcon className="cabinet-sidebar__link-icon" />}
-            {!icon && <IconPlaceholder className="cabinet-sidebar__link-icon" />}
             {label}
           </NavLink>
         ))}

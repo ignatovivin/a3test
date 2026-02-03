@@ -76,8 +76,6 @@
   --sidebar-width: 216px;
   --sidebar-margin-x: 32px;
   --gap-sidebar-main: 132px;   /* отступ между сайдбаром и основным контентом */
-  --main-margin-left: 380px;   /* 32 + 216 + 132 gap */
-  --main-width: 1028px;
   /* Header — Figma node 219-4075 */
   --header-padding: 20px 32px;
   --header-top-gap: 18px;
