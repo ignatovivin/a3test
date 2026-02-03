@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import { Link, NavLink } from 'react-router-dom'
+import { lockBodyScroll, unlockBodyScroll } from '../../utils/bodyScrollLock'
 import { NotificationIcon } from '../icons/NotificationIcon'
 import { PersonalIcon } from '../icons/PersonalIcon'
 import { ArrowDownIcon } from '../icons/ArrowDownIcon'
@@ -59,7 +60,11 @@ export function Header() {
       }
     }
     document.addEventListener('click', handleClickOutside)
-    return () => document.removeEventListener('click', handleClickOutside)
+    lockBodyScroll()
+    return () => {
+      document.removeEventListener('click', handleClickOutside)
+      unlockBodyScroll()
+    }
   }, [menuOpen])
 
   const displayLabel = selectedOption ? selectedOption.label : 'Выберите заявку или договор'

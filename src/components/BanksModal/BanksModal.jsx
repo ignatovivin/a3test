@@ -5,6 +5,7 @@
 
 import { useCallback, useEffect, useState } from 'react'
 import { Button } from '../Button/Button'
+import { lockBodyScroll, unlockBodyScroll } from '../../utils/bodyScrollLock'
 
 const CONNECTED_BANKS = [
   { name: 'Альфа-Банк', logo: '/bank-alfa.svg' },
@@ -59,10 +60,10 @@ export function BanksModal({ isOpen, onClose }) {
       if (e.key === 'Escape') handleClose()
     }
     document.addEventListener('keydown', handleEscape)
-    document.body.style.overflow = 'hidden'
+    lockBodyScroll()
     return () => {
       document.removeEventListener('keydown', handleEscape)
-      document.body.style.overflow = ''
+      unlockBodyScroll()
     }
   }, [isOpen, handleClose])
 
