@@ -16,6 +16,7 @@ function App() {
           <Route path="history" element={<PlaceholderPage title="История платежей" description="История платежей." />} />
           <Route path="widget" element={<PlaceholderPage title="Платежный виджет" description="Платежный виджет." />} />
           <Route path="validation" element={<PlaceholderPage title="Настройка валидации" description="Настройка валидации." />} />
+          <Route path="notifications" element={<PlaceholderPage title="Уведомления" description="Раздел уведомлений." />} />
         </Route>
       </Routes>
       </div>

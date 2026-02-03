@@ -103,3 +103,10 @@
   --slider-padding: 16px 20px;
   --block-padding: 16px 20px 12px;
 }
+
+@media (max-width: 1023px) {
+  :root {
+    /* Высота header на планшете/мобиле (16px сверху + 44px логотип + 16px снизу) */
+    --header-height: 76px;
+  }
+}

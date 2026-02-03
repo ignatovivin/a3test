@@ -131,16 +131,12 @@ export function BanksModal({ isOpen, onClose }) {
           <div className="banks-modal__content">
             <div className="banks-modal__section">
               <div className="banks-modal__bank-rows">
-                {[CONNECTED_BANKS.slice(0, 4), CONNECTED_BANKS.slice(4)].map((row, rowIndex) => (
-                  <div key={rowIndex} className="banks-modal__row">
-                    {row.map((bank) => (
-                      <div key={bank.name} className="banks-modal__card banks-modal__card--connected">
-                        <div className="banks-modal__card-logo" aria-hidden>
-                          <img src={bank.logo} alt="" width="32" height="32" />
-                        </div>
-                        <span className="banks-modal__card-name">{bank.name}</span>
-                      </div>
-                    ))}
+                {CONNECTED_BANKS.map((bank) => (
+                  <div key={bank.name} className="banks-modal__card banks-modal__card--connected">
+                    <div className="banks-modal__card-logo" aria-hidden>
+                      <img src={bank.logo} alt="" width="32" height="32" />
+                    </div>
+                    <span className="banks-modal__card-name">{bank.name}</span>
                   </div>
                 ))}
               </div>
@@ -152,37 +148,32 @@ export function BanksModal({ isOpen, onClose }) {
                 <p className="banks-modal__section-subtitle">Выберите один или несколько</p>
               </div>
               <div className="banks-modal__bank-rows">
-                {[AVAILABLE_BANKS.slice(0, 4), AVAILABLE_BANKS.slice(4)].map((row, rowIndex) => (
-                  <div key={rowIndex} className="banks-modal__row">
-                    {row.map((bank) => {
-                      if (!bank) return null
-                      const isSelected = selectedBankIds.includes(bank.id)
-                      return (
-                        <button
-                          key={bank.id}
-                          type="button"
-                          className={
-                            `banks-modal__card banks-modal__card--available` +
-                            (isSelected ? ' banks-modal__card--available-selected' : '')
-                          }
-                          onClick={() => toggleBank(bank.id)}
-                          aria-pressed={isSelected ? 'true' : 'false'}
-                        >
-                          {bank.logo ? (
-                            <span className="banks-modal__card-logo" aria-hidden>
-                              <img src={bank.logo} alt="" width="32" height="32" />
-                            </span>
-                          ) : (
-                            <span className="banks-modal__card-logo banks-modal__card-logo--placeholder" aria-hidden>
-                              {bank.name.charAt(0)}
-                            </span>
-                          )}
-                          <span className="banks-modal__card-name">{bank.name}</span>
-                        </button>
-                      )
-                    })}
-                  </div>
-                ))}
+                {AVAILABLE_BANKS.map((bank) => {
+                  const isSelected = selectedBankIds.includes(bank.id)
+                  return (
+                    <button
+                      key={bank.id}
+                      type="button"
+                      className={
+                        `banks-modal__card banks-modal__card--available` +
+                        (isSelected ? ' banks-modal__card--available-selected' : '')
+                      }
+                      onClick={() => toggleBank(bank.id)}
+                      aria-pressed={isSelected ? 'true' : 'false'}
+                    >
+                      {bank.logo ? (
+                        <span className="banks-modal__card-logo" aria-hidden>
+                          <img src={bank.logo} alt="" width="32" height="32" />
+                        </span>
+                      ) : (
+                        <span className="banks-modal__card-logo banks-modal__card-logo--placeholder" aria-hidden>
+                          {bank.name.charAt(0)}
+                        </span>
+                      )}
+                      <span className="banks-modal__card-name">{bank.name}</span>
+                    </button>
+                  )
+                })}
               </div>
             </div>
 

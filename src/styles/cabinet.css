@@ -128,6 +128,28 @@ body {
   height: 24px;
 }
 
+/* Профиль в меню бургера (на планшете/мобиле вместо иконки в шапке) */
+.cabinet-sidebar__profile-entry {
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--color-border);
+  margin-bottom: 0;
+}
+
+@media (min-width: 1024px) {
+  .cabinet-sidebar__profile-entry {
+    display: none; /* на десктопе профиль в шапке, в сайдбаре не дублируем */
+  }
+}
+
+.cabinet-sidebar__profile-btn {
+  width: 100%;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-family: inherit;
+  text-align: left;
+}
+
 /* layout_X8BTGK: Button + Text — column, stretch, gap 24px */
 .cabinet-sidebar__footer {
   display: flex;
@@ -228,11 +250,6 @@ body {
   gap: var(--header-left-gap-dropdown);
 }
 
-.cabinet-header__menu-wrap {
-  display: flex;
-  align-items: center;
-}
-
 .cabinet-header__menu-btn {
   display: flex;
   align-items: center;
@@ -244,6 +261,11 @@ body {
   cursor: pointer;
   color: var(--color-text-primary);
   padding: 0;
+}
+
+/* Бургер справа: по умолчанию скрыт; селектор сильнее .cabinet-header__icon-btn */
+.cabinet-header__icon-btn.cabinet-header__menu-btn--right {
+  display: none;
 }
 
 .cabinet-header__menu-btn:focus-visible {
@@ -377,10 +399,254 @@ body {
   color: var(--color-primary);
 }
 
+/* Обёртка бургера и выпадающего списка меню (только на планшете/мобиле) */
+.cabinet-header__menu-wrap {
+  position: relative;
+}
+
+@keyframes cabinet-menu-open {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Выпадающая панель меню бургера — на десктопе маленький дропдаун; на мобиле полноширинная под header */
+.cabinet-header__menu-panel {
+  position: absolute;
+  top: calc(100% + 4px);
+  right: 0;
+  min-width: 260px;
+  max-width: 320px;
+  max-height: min(70vh, 400px);
+  overflow-y: auto;
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  z-index: 20;
+  padding: 4px 0;
+}
+
+.cabinet-header__menu-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.cabinet-header__menu-dropdown-wrap {
+  position: relative;
+  padding: 0 16px 16px;
+}
+
+.cabinet-header__menu-dropdown {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: var(--header-dropdown-padding);
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  font-size: var(--text-body-font-size);
+  font-weight: 400;
+  line-height: var(--text-body-line-height);
+  color: var(--color-text-primary);
+  cursor: pointer;
+  font-family: inherit;
+  text-align: left;
+}
+
+.cabinet-header__menu-dropdown.is-open svg {
+  transform: rotate(180deg);
+  color: var(--color-primary-80);
+}
+
+.cabinet-header__menu-dropdown svg {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  transition: transform 0.2s;
+}
+
+.cabinet-header__menu-dropdown-panel {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  right: 0;
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  z-index: 10;
+  padding: 4px 0;
+}
+
+.cabinet-header__menu-divider {
+  border: none;
+  border-top: 1px solid var(--color-border);
+  margin: 0 16px 16px;
+}
+
+.cabinet-header__menu-account {
+  display: flex;
+  flex-direction: column;
+  padding: 0 16px 16px;
+}
+
+.cabinet-header__menu-footer {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding: 0 16px 24px 16px;
+  margin-top: auto;
+}
+
+.cabinet-header__menu-btn {
+  align-self: stretch;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.cabinet-header__menu-caption-wrap {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 16px;
+}
+
+.cabinet-header__menu-caption-icon {
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+  color: var(--color-text-muted);
+}
+
+.cabinet-header__menu-caption-icon svg {
+  width: 100%;
+  height: 100%;
+}
+
+.cabinet-header__menu-caption {
+  font-size: var(--text-caption3-font-size);
+  font-weight: var(--text-body-font-weight);
+  line-height: var(--text-caption3-line-height);
+  color: var(--color-text-secondary);
+  margin: 0;
+}
+
+.cabinet-header__menu-list {
+  list-style: none;
+  margin: 0;
+  padding: 0 16px 16px;
+}
+
+.cabinet-header__menu-item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+  padding: 10px 16px;
+  border: none;
+  background: transparent;
+  font-size: var(--text-button-font-size);
+  font-weight: var(--text-caption3-font-weight);
+  line-height: 1;
+  color: var(--color-text-primary);
+  text-align: left;
+  cursor: pointer;
+  font-family: inherit;
+  text-decoration: none;
+  box-sizing: border-box;
+  transition: background 0.15s, color 0.15s;
+}
+
+.cabinet-header__menu-item:hover {
+  background: var(--color-bg-card-alt);
+  color: var(--color-primary);
+}
+
+.cabinet-header__menu-item--active {
+  color: var(--color-primary);
+}
+
+.cabinet-header__menu-item-icon {
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: inherit;
+}
+
+.cabinet-header__menu-item-icon svg {
+  display: block;
+  width: 24px;
+  height: 24px;
+}
+
 .cabinet-header__icons {
   display: flex;
   align-items: center;
   gap: var(--header-left-gap);
+}
+
+@media (max-width: 1023px) {
+  .cabinet-header__top {
+    flex-wrap: nowrap;
+  }
+
+  .cabinet-header__left {
+    gap: var(--header-left-gap);
+  }
+
+  /* menu-wrap с бургером показываем на планшете/мобилке (на десктопе скрыт в min-width: 1024px) */
+  .cabinet-header__menu-wrap {
+    display: flex;
+  }
+
+  .cabinet-header__icon-btn.cabinet-header__menu-btn--right {
+    display: flex; /* показываем бургер справа только на планшете/мобилке */
+  }
+
+  .cabinet-header__dropdown-wrap {
+    display: none; /* прячем дропдаун на планшете и ниже */
+  }
+
+  /* Иконка профиля (человечек) уходит в меню бургера — скрываем; селектор сильнее .cabinet-header__icon-btn */
+  .cabinet-header__icon-btn.cabinet-header__profile {
+    display: none;
+  }
+
+  /* Бургер-меню раскрывается под header на всю ширину, без границы сверху, с анимацией */
+  .cabinet-header__menu-panel {
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: var(--header-height);
+    bottom: 0;
+    width: 100%;
+    max-width: none;
+    min-width: 0;
+    max-height: none;
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+    padding: 0;
+    z-index: 50;
+    overflow-y: auto;
+    animation: cabinet-menu-open 0.15s ease-out forwards;
+  }
+
+  .cabinet-header__menu-body {
+    min-height: 100%;
+    padding: 24px 0;
+  }
 }
 
 .cabinet-header__icon-btn {
@@ -394,6 +660,7 @@ body {
   cursor: pointer;
   color: var(--color-primary);
   padding: 0;
+  text-decoration: none; /* для ссылки «Уведомления» — без подчёркивания */
 }
 
 .cabinet-header__icon-btn:focus-visible {
@@ -453,6 +720,16 @@ body {
   display: flex;
   flex-direction: column;
   gap: var(--content-gap);
+}
+
+@media (max-width: 1023px) {
+  .cabinet-header {
+    padding: 16px 16px;
+  }
+
+  .cabinet-content {
+    padding: 16px 16px var(--content-gap) 16px;
+  }
 }
 
 /* ========== Banks Modal — Figma node 219-8005 ========== */
@@ -675,19 +952,13 @@ body {
 }
 
 .banks-modal__bank-rows {
-  display: flex;
-  flex-direction: column;
+  display: grid;
   align-self: stretch;
   gap: 8px;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
 }
 
-.banks-modal__row {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 8px;
-  flex-wrap: wrap;
-}
+/* .banks-modal__row больше не используется, оставляем на случай старых классов */
 
 /* Activity Details (layout_MJULH1): row → внутри Activity Info (layout_KFDYGR): column, gap 12px */
 .banks-modal__card {
@@ -696,7 +967,7 @@ body {
   align-items: flex-start;
   gap: 12px;
   padding: 12px 16px;
-  width: 178px;
+  width: 100%;
   min-width: 0;
   box-sizing: border-box;
   border-radius: var(--radius-lg);
@@ -704,6 +975,18 @@ body {
   font-family: inherit;
   text-align: left;
   cursor: default;
+}
+
+@media (max-width: 1024px) {
+  .banks-modal__bank-rows {
+    grid-template-columns: repeat(3, minmax(0, 1fr)); /* три карточки в ряд на планшете */
+  }
+}
+
+@media (max-width: 640px) {
+  .banks-modal__bank-rows {
+    grid-template-columns: repeat(2, minmax(0, 1fr)); /* две карточки в ряд на телефоне */
+  }
 }
 
 .banks-modal__card--connected {
@@ -971,6 +1254,12 @@ body {
   align-self: stretch;
 }
 
+@media (max-width: 640px) {
+  .cabinet-block__banks {
+    grid-template-columns: repeat(2, 1fr); /* две карточки в ряд на мобильных, с пустым местом если не хватает карточек */
+  }
+}
+
 .cabinet-bank-card {
   display: flex;
   flex-direction: column;
@@ -1089,13 +1378,20 @@ body {
     gap: 16px;
   }
 
-  .cabinet-header__logo {
-    max-width: 120px;
-    height: 36px;
-  }
-
   .cabinet-slider__inner {
     flex-direction: column;
     align-items: flex-start;
+  }
+
+  /* На малых экранах: картинка сверху, под ней текст и кнопка; размер картинки как на десктопе (220×192) */
+  .cabinet-slider__banner {
+    order: -1;
+  }
+}
+
+/* Мобильные (до планшетных): кнопка в слайдере на всю ширину */
+@media (max-width: 639px) {
+  .cabinet-slider__text .btn {
+    width: 100%;
   }
 }

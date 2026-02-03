@@ -8,8 +8,9 @@ import { QrIcon } from '../icons/QrIcon'
 import { CalendarIcon } from '../icons/CalendarIcon'
 import { FlatIcon } from '../icons/FlatIcon'
 import { NewIcon } from '../icons/NewIcon'
+import { PersonalIcon } from '../icons/PersonalIcon'
 
-const navItems = [
+export const navItems = [
   { to: '/', label: 'Главная', end: true, icon: 'flat' },
   { to: '/request', label: 'Оставить заявку', end: false, icon: 'new' },
   { to: '/payments', label: 'Реестры платежей', end: false, icon: 'payment' },
@@ -26,6 +27,18 @@ export function Sidebar({ isOpen, onClose }) {
       aria-label="Навигация"
     >
       <nav className="cabinet-sidebar__nav">
+        {/* Профиль — на планшете/мобиле перенесён из шапки в меню бургера */}
+        <div className="cabinet-sidebar__profile-entry">
+          <button
+            type="button"
+            className="cabinet-sidebar__link cabinet-sidebar__profile-btn"
+            onClick={onClose}
+            aria-label="Профиль"
+          >
+            <PersonalIcon className="cabinet-sidebar__link-icon" />
+            Профиль
+          </button>
+        </div>
         {navItems.map(({ to, label, end, icon }) => (
           <NavLink
             key={to}
