@@ -15,13 +15,18 @@
   --color-text-primary: #2C2E2B;  /* Day/Gray/100 */
 
   /* ========== Цвета — Figma Day/Blue ========== */
-  --color-primary: #69A6F1;       /* Day/Blue/90 — кнопки, ссылки */
-  --color-primary-90: #69A6F1;   /* Day/Blue/90 — дефолт ghost-кнопки */
-  --color-primary-80: #72ADF8;   /* Day/Blue/80 — ховер ghost-кнопки */
-  --color-primary-dark: #4B8BDA;  /* Day/Blue/100 */
-  --color-primary-light: #79B5FF; /* Day/Blue/70 */
-  --color-primary-tint: #E8F0FE;  /* светлый фон (теги, бейджи) */
+  --color-primary: #69A6F1;        /* Day/Blue/90 — кнопки, ссылки */
+  --color-primary-90: #69A6F1;     /* Day/Blue/90 — дефолт ghost-кнопки */
+  --color-primary-80: #72ADF8;     /* Day/Blue/80 — ховер ghost-кнопки */
+  --color-primary-dark: #4B8BDA;   /* Day/Blue/100 */
+  --color-primary-light: #79B5FF;  /* Day/Blue/70 */
+  --color-primary-tint: #E8F0FE;   /* Day/Blue/10 — светлый фон (теги, бейджи) */
+  --color-primary-10: #E8F0FE;     /* alias для Day/Blue/10 */
   --color-on-primary: #FFFFFF;    /* текст на синем */
+
+  /* Day/Green */
+  --color-green-10: #D5F0E3;      /* Day/Green/10 */
+  --color-green-100: #2BB673;     /* Day/Green/100 */
 
   /* ========== Цвета — доп. из Figma ========== */
   --color-button-secondary-bg: transparent; /* outline: прозрачный фон, синяя обводка */
@@ -53,9 +58,9 @@
   --text-button-font-weight: 500;
   --text-button-line-height: 1.57142857;
 
-  /* desktop/Captions/Captions 1 — Mont 600, 14px, 1.29 */
+  /* desktop/Captions/Captions 1 — Mont 400, 14px, 1.29 */
   --text-caption1-font-size: 14px;
-  --text-caption1-font-weight: 600;
+  --text-caption1-font-weight: 400;
   --text-caption1-line-height: 1.28571429;
 
   /* desktop/Captions/Captions 3 — Mont 600, 12px, 1.5 */
