@@ -22,6 +22,11 @@ body.body-scroll-lock .cabinet-content {
   overflow: hidden;
   touch-action: none;
 }
+/* Хедер поверх fixed-контента при блокировке, иначе контент перекрывает хедер */
+body.body-scroll-lock .cabinet-header-wrap {
+  position: relative;
+  z-index: 100;
+}
 
 #root,
 .app-root {
@@ -765,7 +770,9 @@ body.body-scroll-lock .cabinet-content {
   width: 100%;
   max-width: 800px;
   max-height: calc(100vh - 48px);
-  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
   background: var(--color-bg-card);
   border-radius: var(--radius-sm);
   padding: 24px;
@@ -841,6 +848,31 @@ body.body-scroll-lock .cabinet-content {
   justify-content: space-between;
   align-items: center;
   align-self: stretch;
+  flex-shrink: 0;
+}
+
+/* Прокручиваемая область: только список банков; кнопка «Подключить» остаётся внизу */
+.banks-modal__scroll {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  margin: 0 -24px; /* компенсация padding модалки */
+  padding: 0 24px 16px;
+}
+
+/* Нижний блок с кнопкой — всегда на виду, не уезжает при скролле */
+.banks-modal__footer {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  padding-top: 16px;
+  margin-top: 8px;
+}
+
+.banks-modal__footer .banks-modal__submit {
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .banks-modal__title {
@@ -997,6 +1029,21 @@ body.body-scroll-lock .cabinet-content {
   .banks-modal__bank-rows {
     grid-template-columns: repeat(2, minmax(0, 1fr)); /* две карточки в ряд на телефоне */
   }
+
+  /* Модалка на мобильных: меньше отступы, прокручиваемая область подстраивается */
+  .banks-modal-overlay {
+    padding: 16px;
+  }
+
+  .banks-modal {
+    padding: 16px;
+    max-height: calc(100vh - 32px);
+  }
+
+  .banks-modal__scroll {
+    margin: 0 -16px;
+    padding: 0 16px 16px;
+  }
 }
 
 .banks-modal__card--connected {
@@ -1055,7 +1102,7 @@ body.body-scroll-lock .cabinet-content {
 
 .banks-modal__submit {
   align-self: stretch;
-  margin-top: 8px;
+  margin: 0;
 }
 
 .banks-modal__content--success .banks-modal__submit {

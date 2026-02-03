@@ -4,6 +4,7 @@
  */
 
 import { useCallback, useEffect, useState } from 'react'
+import { createPortal } from 'react-dom'
 import { Button } from '../Button/Button'
 import { lockBodyScroll, unlockBodyScroll } from '../../utils/bodyScrollLock'
 
@@ -69,7 +70,7 @@ export function BanksModal({ isOpen, onClose }) {
 
   if (!isOpen && !isClosing) return null
 
-  return (
+  const modalContent = (
     <div
       className={`banks-modal-overlay${isClosing ? ' banks-modal-overlay--closing' : ''}`}
       onClick={handleClose}
@@ -129,68 +130,76 @@ export function BanksModal({ isOpen, onClose }) {
             </Button>
           </div>
         ) : (
-          <div className="banks-modal__content">
-            <div className="banks-modal__section">
-              <div className="banks-modal__bank-rows">
-                {CONNECTED_BANKS.map((bank) => (
-                  <div key={bank.name} className="banks-modal__card banks-modal__card--connected">
-                    <div className="banks-modal__card-logo" aria-hidden>
-                      <img src={bank.logo} alt="" width="32" height="32" />
-                    </div>
-                    <span className="banks-modal__card-name">{bank.name}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div className="banks-modal__section banks-modal__section--available">
-              <div className="banks-modal__section-head">
-                <h3 className="banks-modal__section-title">Банки доступные к подключению</h3>
-                <p className="banks-modal__section-subtitle">Выберите один или несколько</p>
-              </div>
-              <div className="banks-modal__bank-rows">
-                {AVAILABLE_BANKS.map((bank) => {
-                  const isSelected = selectedBankIds.includes(bank.id)
-                  return (
-                    <button
-                      key={bank.id}
-                      type="button"
-                      className={
-                        `banks-modal__card banks-modal__card--available` +
-                        (isSelected ? ' banks-modal__card--available-selected' : '')
-                      }
-                      onClick={() => toggleBank(bank.id)}
-                      aria-pressed={isSelected ? 'true' : 'false'}
-                    >
-                      {bank.logo ? (
-                        <span className="banks-modal__card-logo" aria-hidden>
+          <>
+            <div className="banks-modal__scroll">
+              <div className="banks-modal__content">
+                <div className="banks-modal__section">
+                  <div className="banks-modal__bank-rows">
+                    {CONNECTED_BANKS.map((bank) => (
+                      <div key={bank.name} className="banks-modal__card banks-modal__card--connected">
+                        <div className="banks-modal__card-logo" aria-hidden>
                           <img src={bank.logo} alt="" width="32" height="32" />
-                        </span>
-                      ) : (
-                        <span className="banks-modal__card-logo banks-modal__card-logo--placeholder" aria-hidden>
-                          {bank.name.charAt(0)}
-                        </span>
-                      )}
-                      <span className="banks-modal__card-name">{bank.name}</span>
-                    </button>
-                  )
-                })}
+                        </div>
+                        <span className="banks-modal__card-name">{bank.name}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="banks-modal__section banks-modal__section--available">
+                  <div className="banks-modal__section-head">
+                    <h3 className="banks-modal__section-title">Банки доступные к подключению</h3>
+                    <p className="banks-modal__section-subtitle">Выберите один или несколько</p>
+                  </div>
+                  <div className="banks-modal__bank-rows">
+                    {AVAILABLE_BANKS.map((bank) => {
+                      const isSelected = selectedBankIds.includes(bank.id)
+                      return (
+                        <button
+                          key={bank.id}
+                          type="button"
+                          className={
+                            `banks-modal__card banks-modal__card--available` +
+                            (isSelected ? ' banks-modal__card--available-selected' : '')
+                          }
+                          onClick={() => toggleBank(bank.id)}
+                          aria-pressed={isSelected ? 'true' : 'false'}
+                        >
+                          {bank.logo ? (
+                            <span className="banks-modal__card-logo" aria-hidden>
+                              <img src={bank.logo} alt="" width="32" height="32" />
+                            </span>
+                          ) : (
+                            <span className="banks-modal__card-logo banks-modal__card-logo--placeholder" aria-hidden>
+                              {bank.name.charAt(0)}
+                            </span>
+                          )}
+                          <span className="banks-modal__card-name">{bank.name}</span>
+                        </button>
+                      )
+                    })}
+                  </div>
+                </div>
               </div>
             </div>
 
-            <Button
-              type="button"
-              variant="primary"
-              size="m"
-              className="banks-modal__submit"
-              disabled={selectedBankIds.length === 0}
-              onClick={handleSubmit}
-            >
-              Подключить
-            </Button>
-          </div>
+            <div className="banks-modal__footer">
+              <Button
+                type="button"
+                variant="primary"
+                size="m"
+                className="banks-modal__submit"
+                disabled={selectedBankIds.length === 0}
+                onClick={handleSubmit}
+              >
+                Подключить
+              </Button>
+            </div>
+          </>
         )}
       </div>
     </div>
   )
+
+  return createPortal(modalContent, document.body)
 }
