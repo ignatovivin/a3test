@@ -1307,15 +1307,6 @@ body.body-scroll-lock .cabinet-header-wrap {
   margin: 0;
 }
 
-@media (max-width: 640px) {
-  /* Мобайл: заголовок блока «Подключенные банки» = Subtitle 2 (16px) */
-  .cabinet-block__title {
-    font-size: var(--text-subtitle2-font-size);
-    font-weight: var(--text-subtitle2-font-weight);
-    line-height: var(--text-subtitle2-line-height);
-  }
-}
-
 /* layout_TL35KD: All filter — row, center, gap 4px, padding 0 0 0 8px, #F9F9F9, radius 8px, Captions 3 */
 .cabinet-block__filter {
   display: flex;
