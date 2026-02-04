@@ -1304,25 +1304,31 @@ body.body-scroll-lock .cabinet-header-wrap {
   }
 }
 
-/* Кнопка «Все» — Button Ghost S: default Blue/90, hover Blue/80 */
-.cabinet-block__filter.btn {
+/* layout_TL35KD: All filter — row, center, gap 4px, padding 0 0 0 8px, #F9F9F9, radius 8px, Captions 3 */
+.cabinet-block__filter {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
   gap: 4px;
-  padding: 8px 0;
-  color: var(--color-primary-90);
+  padding: 0 0 0 8px;
+  background: var(--color-bg-card-alt);
+  border-radius: var(--radius-md);
+  border: none;
+  font-size: var(--text-caption3-font-size);
+  font-weight: var(--text-caption3-font-weight);
+  line-height: var(--text-caption3-line-height);
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  font-family: inherit;
+  transition: color 0.15s;
 }
 
-.cabinet-block__filter.btn:hover:not(:disabled) {
+.cabinet-block__filter:hover {
   color: var(--color-primary-80);
-}
-
-.cabinet-block__filter-text {
-  white-space: nowrap;
 }
 
 .cabinet-block__filter-chevron {
   flex-shrink: 0;
-  width: 18px;
-  height: 18px;
 }
 
 /* layout_CA5OMX: Bank Cards Container — column, stretch, gap 8px */
@@ -1336,14 +1342,7 @@ body.body-scroll-lock .cabinet-header-wrap {
 
 @media (max-width: 640px) {
   .cabinet-block__banks {
-    grid-template-columns: 1fr; /* на мобильных одна карточка в строку, как в референсе */
-  }
-
-  /* Figma 219:3831 (Activity Details): Title = Captions 1 (14px, 600) */
-  .cabinet-bank-card__name {
-    font-size: var(--text-caption1-font-size);
-    font-weight: 600;
-    line-height: var(--text-caption1-line-height);
+    grid-template-columns: repeat(2, 1fr); /* две карточки в ряд на мобильных, с пустым местом если не хватает карточек */
   }
 }
 
@@ -1355,14 +1354,6 @@ body.body-scroll-lock .cabinet-header-wrap {
   background: var(--color-bg-card-alt);
   border-radius: var(--radius-lg);
   min-width: 0;
-}
-
-@media (max-width: 640px) {
-  .cabinet-bank-card {
-    flex-direction: row;
-    align-items: center;
-    gap: 12px;
-  }
 }
 
 /* layout_ND8M8W: Bank Logo Container — 32×32, padding 10px 11px, radius 8px */

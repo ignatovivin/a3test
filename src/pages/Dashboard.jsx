@@ -93,6 +93,7 @@ export function Dashboard() {
   /* Для пагинации и aria: логический индекс 0..N-1 */
   const displayIndex = currentSlide % SLIDES.length
 
+
   return (
     <>
       <BanksModal isOpen={banksModalOpen} onClose={() => setBanksModalOpen(false)} />
