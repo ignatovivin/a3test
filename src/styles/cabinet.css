@@ -1516,3 +1516,9 @@ body.body-scroll-lock .cabinet-header-wrap {
     width: 100%;
   }
 }
+
+@media (max-width: 640px) {
+  .cabinet-slider__pagination {
+    display: none;
+  }
+}
