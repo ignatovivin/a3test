@@ -1295,6 +1295,15 @@ body.body-scroll-lock .cabinet-header-wrap {
   margin: 0;
 }
 
+@media (max-width: 640px) {
+  /* Мобайл: заголовок блока «Подключенные банки» = Subtitle 2 (16px) */
+  .cabinet-block__title {
+    font-size: var(--text-subtitle2-font-size);
+    font-weight: var(--text-subtitle2-font-weight);
+    line-height: var(--text-subtitle2-line-height);
+  }
+}
+
 /* Кнопка «Все» — Button Ghost S: default Blue/90, hover Blue/80 */
 .cabinet-block__filter.btn {
   gap: 4px;
@@ -1327,7 +1336,14 @@ body.body-scroll-lock .cabinet-header-wrap {
 
 @media (max-width: 640px) {
   .cabinet-block__banks {
-    grid-template-columns: repeat(2, 1fr); /* две карточки в ряд на мобильных, с пустым местом если не хватает карточек */
+    grid-template-columns: 1fr; /* на мобильных одна карточка в строку, как в референсе */
+  }
+
+  /* Figma 219:3831 (Activity Details): Title = Captions 1 (14px, 600) */
+  .cabinet-bank-card__name {
+    font-size: var(--text-caption1-font-size);
+    font-weight: 600;
+    line-height: var(--text-caption1-line-height);
   }
 }
 
@@ -1339,6 +1355,14 @@ body.body-scroll-lock .cabinet-header-wrap {
   background: var(--color-bg-card-alt);
   border-radius: var(--radius-lg);
   min-width: 0;
+}
+
+@media (max-width: 640px) {
+  .cabinet-bank-card {
+    flex-direction: row;
+    align-items: center;
+    gap: 12px;
+  }
 }
 
 /* layout_ND8M8W: Bank Logo Container — 32×32, padding 10px 11px, radius 8px */
