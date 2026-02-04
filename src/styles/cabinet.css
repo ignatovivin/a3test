@@ -1277,6 +1277,18 @@ body.body-scroll-lock .cabinet-header-wrap {
   border-radius: var(--radius-xl);
 }
 
+@media (max-width: 640px) {
+  .cabinet-slider {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  .cabinet-block {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+}
+
 /* layout_L050Z4: Activity Title row — space-between, center, gap 16px */
 .cabinet-block__header {
   display: flex;
