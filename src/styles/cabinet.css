@@ -1464,6 +1464,19 @@ body.body-scroll-lock .cabinet-header-wrap {
     gap: 16px;
   }
 
+  /* Мобайл и планшет: фиксируем хедер наверху, контент уезжает под него */
+  .cabinet-header-wrap {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 90;
+  }
+
+  .cabinet {
+    margin-top: var(--header-height);
+  }
+
   .cabinet-slider__inner {
     flex-direction: column;
     align-items: flex-start;
