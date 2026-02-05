@@ -1134,7 +1134,8 @@ body.body-scroll-lock .cabinet-header-wrap {
   align-self: stretch;
   gap: 16px;
   padding: 16px 20px;
-  background: var(--color-bg-card);
+  min-height: 142px; /* базовая высота слайдера с учётом паддингов, можно расти выше */
+  background: linear-gradient(99deg, #1B6FE7 4.41%, #69A6F1 100.67%);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-xl);
   overflow: hidden;
@@ -1157,19 +1158,25 @@ body.body-scroll-lock .cabinet-header-wrap {
   flex: 0 0 100%;
   width: 100%;
   min-width: 0;
-  min-height: 192px;
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
+  justify-content: center;
 }
 
 .cabinet-slider__inner {
   display: flex;
   flex-direction: row;
-  align-items: flex-end;
+  align-items: stretch; /* колонки одной высоты */
   justify-content: space-between;
   gap: 24px;
   width: 100%;
+}
+
+.cabinet-slider__actions {
+  flex-shrink: 0;
+  display: flex;
+  align-items: flex-end; /* кнопка прибита к низу относительно текстового блока */
+  justify-content: flex-end;
 }
 
 /* Текстовый блок слева: заголовок, подзаголовок, кнопка — всё по левому краю */
@@ -1186,14 +1193,14 @@ body.body-scroll-lock .cabinet-header-wrap {
 .cabinet-slider__text-block {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 8px;
 }
 
 .cabinet-slider__title {
-  font-size: var(--text-h3-font-size);
+  font-size: var(--text-h3-mobile-font-size);   /* H4: 24px */
   font-weight: var(--text-h3-font-weight);
-  line-height: var(--text-h3-line-height);
-  color: var(--color-text-primary);
+  line-height: var(--text-h3-mobile-line-height);
+  color: var(--color-bg-page); /* Day/Gray/5 */
   margin: 0;
 }
 
@@ -1201,11 +1208,20 @@ body.body-scroll-lock .cabinet-header-wrap {
   font-size: var(--text-caption1-font-size);
   font-weight: var(--text-caption1-font-weight);
   line-height: var(--text-caption1-line-height);
-  color: var(--color-text-secondary);
+  color: var(--color-bg-page); /* Day/Gray/5 */
   margin: 0;
 }
 
 /* Кнопка в слайдере — компонент Button (Primary M) */
+.cabinet-slider .btn--primary {
+  background: var(--color-bg-page); /* Day/Gray/5 */
+  color: var(--color-primary-90);   /* Day/Blue/90 */
+}
+
+.cabinet-slider .btn--primary:hover:not(:disabled) {
+  background: var(--color-border);  /* немного темнее на ховере */
+  color: var(--color-primary-90);
+}
 
 /* Баннер справа: фиксированная высота, по вертикали по центру с текстом (как в референсе) */
 .cabinet-slider__banner {
@@ -1479,32 +1495,37 @@ body.body-scroll-lock .cabinet-header-wrap {
   .cabinet {
     margin-top: var(--header-height);
   }
-
-  .cabinet-slider__inner {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  /* На малых экранах: картинка сверху, под ней текст и кнопка; размер картинки как на десктопе (220×192) */
-  .cabinet-slider__banner {
-    order: -1;
-  }
 }
 
-/* Мобильные (до планшетных): кнопка в слайдере на всю ширину, высота баннера 160px */
+/* Мобильные (до планшетных): текст сверху, кнопка снизу на всю ширину */
 @media (max-width: 639px) {
-  .cabinet-slider__banner {
-    width: 226px;
-    height: 160px;
+  .cabinet-slider__inner {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .cabinet-slider__actions {
+    width: 100%;
+  }
+
+  .cabinet-slider__actions .btn {
+    width: 100%;
   }
 
   .cabinet-slider__title {
     font-size: var(--text-h3-mobile-font-size);
     line-height: var(--text-h3-mobile-line-height);
   }
+}
 
-  .cabinet-slider__text .btn {
-    width: 100%;
+/* Планшеты (от 640 до 1023): фиксируем контент по центру блока, но без «скачков» вверх */
+@media (min-width: 640px) and (max-width: 1023px) {
+  .cabinet-slider__slide {
+    justify-content: center;
+  }
+
+  .cabinet-slider__inner {
+    align-items: center;
   }
 }
 

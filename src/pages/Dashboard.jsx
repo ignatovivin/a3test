@@ -121,47 +121,22 @@ export function Dashboard() {
                 <div className="cabinet-slider__inner">
                   <div className="cabinet-slider__text">
                     <div className="cabinet-slider__text-block">
-                      <h2 className="cabinet-slider__title">
+                      <h4 className="cabinet-slider__title">
                         {isMobile && slide.title === 'Единый реестр платежей' ? 'Реестр платежей' : slide.title}
-                      </h2>
+                      </h4>
                       <p className="cabinet-slider__subtitle">{slide.subtitle}</p>
                     </div>
+                  </div>
+                  <div className="cabinet-slider__actions">
                     <Button type="button" variant="primary" size="m">
                       {slide.buttonText}
                     </Button>
-                  </div>
-                  <div className="cabinet-slider__banner">
-                    <picture>
-                      <source
-                        media="(max-width: 639px)"
-                        srcSet="/slider-banner-mobile.png"
-                      />
-                      <img
-                        src="/slider-banner.png"
-                        alt=""
-                        className="cabinet-slider__banner-img"
-                      />
-                    </picture>
                   </div>
                 </div>
               </div>
             ))}
           </div>
         </div>
-        <nav className="cabinet-slider__pagination" aria-label="Переключение слайдов">
-          <div className="cabinet-slider__pagination-inner">
-            {SLIDES.map((_, index) => (
-              <button
-                key={index}
-                type="button"
-                className={`cabinet-slider__dot ${index === displayIndex ? 'cabinet-slider__dot--active' : ''}`}
-                aria-label={`Слайд ${index + 1}`}
-                aria-current={index === displayIndex ? 'true' : undefined}
-                onClick={() => setCurrentSlide(index)}
-              />
-            ))}
-          </div>
-        </nav>
       </section>
 
       {/* Block «Подключенные банки» — Figma */}
