@@ -965,6 +965,14 @@ body.body-scroll-lock .cabinet-header-wrap {
   color: var(--color-text-primary);
 }
 
+@media (max-width: 639px) {
+  .banks-modal__success-title {
+    font-size: var(--text-h3-mobile-font-size);
+    font-weight: var(--text-h3-font-weight);
+    line-height: var(--text-h3-mobile-line-height);
+  }
+}
+
 .banks-modal__success-text {
   margin: 0;
   font-size: var(--text-body-font-size);

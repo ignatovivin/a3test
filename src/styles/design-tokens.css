@@ -47,6 +47,11 @@
   --text-h3-mobile-font-size: 24px;
   --text-h3-mobile-line-height: 1.25;
 
+  /* Title/H4 мобильный — 20px, как H3 mobile по весу и line-height */
+  --text-h4-mobile-font-size: 20px;
+  --text-h4-mobile-font-weight: var(--text-h3-font-weight);
+  --text-h4-mobile-line-height: var(--text-h3-mobile-line-height);
+
   /* desktop/Subtitle/Subtitle 1 — Mont 700, 20px, 1.7 */
   --text-subtitle1-font-size: 20px;
   --text-subtitle1-font-weight: 600;
