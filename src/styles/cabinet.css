@@ -1308,6 +1308,9 @@ body.body-scroll-lock .cabinet-header-wrap {
   }
 
   .cabinet-block {
+    /* во всю ширину экрана: выходим за внутренние отступы контента */
+    margin-left: -16px;
+    margin-right: -16px;
     padding-left: 16px;
     padding-right: 16px;
   }
@@ -1507,22 +1510,46 @@ body.body-scroll-lock .cabinet-header-wrap {
 
 /* Мобильные (до планшетных): текст сверху, кнопка снизу на всю ширину */
 @media (max-width: 639px) {
+  /* На мобильных весь контент слайда прижат к верху, а внутри распределён текст/кнопка */
+  .cabinet-slider__slide {
+    justify-content: flex-start;
+    align-items: stretch;
+    height: 100%; /* слайд растягивается на всю высоту слайдера */
+  }
+
   .cabinet-slider__inner {
     flex-direction: column;
     align-items: stretch;
+    height: 100%; /* контент внутри занимает всю высоту слайда */
+    justify-content: flex-start;
+    gap: 84px; /* расстояние между текстовым блоком и кнопкой */
+  }
+
+  /* Фиксированная высота блока с заголовком и подзаголовком */
+  .cabinet-slider__text {
+    height: 74px;
   }
 
   .cabinet-slider__actions {
-    width: 100%;
+    width: auto;              /* ширина по содержимому */
+    display: flex;
+    justify-content: flex-start; /* прижимаем кнопку к левому краю */
+    align-items: flex-end;
+    align-self: flex-start;      /* сам блок тоже слева */
   }
 
   .cabinet-slider__actions .btn {
-    width: 100%;
+    width: auto; /* ширина по контенту кнопки */
   }
 
   .cabinet-slider__title {
     font-size: var(--text-h3-mobile-font-size);
     line-height: var(--text-h3-mobile-line-height);
+  }
+
+  /* Фиксированная высота слайдера на мобилках, контент растягивается на всю высоту */
+  .cabinet-slider {
+    min-height: 240px;
   }
 }
 
