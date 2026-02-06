@@ -1,3 +1,4 @@
+import { Suspense } from 'react'
 import { Outlet } from 'react-router-dom'
 import { Sidebar } from './Sidebar'
 import { Header } from './Header'
@@ -11,7 +12,9 @@ export function CabinetLayout() {
           <Sidebar isOpen={false} onClose={() => {}} />
           <div className="cabinet-main">
             <div className="cabinet-content">
-              <Outlet />
+              <Suspense fallback={null}>
+                <Outlet />
+              </Suspense>
             </div>
           </div>
         </div>

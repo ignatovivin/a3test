@@ -1,15 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { Button } from '../components/Button/Button'
 import { BanksModal } from '../components/BanksModal/BanksModal'
-
-/* Банки: иконки Озон.svg, Райфайзен.svg, Тбанк.svg, Альфа.svg, ВТБ.svg */
-const BANKS = [
-  { name: 'Альфа-Банк', logo: '/bank-alfa.svg' },
-  { name: 'Озон-Банк', logo: '/bank-ozon.svg' },
-  { name: 'Тбанк', logo: '/bank-tbank.svg' },
-  { name: 'Райффайзен', logo: '/bank-raiff.svg' },
-  { name: 'ВТБ', logo: '/bank-vtb.svg' },
-]
+import { CONNECTED_BANKS } from '../constants/banks'
 
 /* Слайды по Figma node 219:3927 — Title/H3, Captions 1, Button Primary M */
 const SLIDES = [
@@ -90,10 +82,6 @@ export function Dashboard() {
     return () => cancelAnimationFrame(raf)
   }, [isJumping])
 
-  /* Для пагинации и aria: логический индекс 0..N-1 */
-  const displayIndex = currentSlide % SLIDES.length
-
-
   return (
     <>
       <BanksModal isOpen={banksModalOpen} onClose={() => setBanksModalOpen(false)} />
@@ -139,8 +127,9 @@ export function Dashboard() {
         </div>
       </section>
 
-      {/* Block «Подключенные банки» — Figma */}
-      <section className="cabinet-block">
+      {/* Один смысловой блок: подключенные банки + кнопка (gap 8) */}
+      <div className="cabinet-banks-section">
+        <section className="cabinet-block">
         <div className="cabinet-block__header">
           <h3 className="cabinet-block__title">Подключенные банки</h3>
           {/* Кнопка «Все» — Button Ghost S + фон как в Figma node 219-4014 */}
@@ -152,7 +141,7 @@ export function Dashboard() {
           </Button>
         </div>
         <div className="cabinet-block__banks">
-          {BANKS.map((bank) => (
+          {CONNECTED_BANKS.map((bank) => (
             <div key={bank.name} className="cabinet-bank-card">
               <div className="cabinet-bank-card__logo" aria-hidden>
                 <img src={bank.logo} alt="" width="32" height="32" />
@@ -161,13 +150,19 @@ export function Dashboard() {
             </div>
           ))}
         </div>
-        <div className="cabinet-block__footer">
-          <hr className="cabinet-block__divider" />
-          <Button type="button" variant="ghost" size="s" onClick={() => setBanksModalOpen(true)}>
-            Подключить банк
-          </Button>
-        </div>
-      </section>
+        </section>
+        <section className="cabinet-connect-bank" aria-label="Подключение банка">
+        <Button
+          type="button"
+          variant="ghost"
+          size="m"
+          className="cabinet-connect-bank__btn"
+          onClick={() => setBanksModalOpen(true)}
+        >
+          Подключить банк
+        </Button>
+        </section>
+      </div>
     </>
   )
 }
