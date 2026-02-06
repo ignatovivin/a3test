@@ -52,12 +52,12 @@
   --text-h4-mobile-font-weight: var(--text-h3-font-weight);
   --text-h4-mobile-line-height: var(--text-h3-mobile-line-height);
 
-  /* desktop/Subtitle/Subtitle 1 — Mont 700, 20px, 1.7 */
+  /* desktop/Subtitle/Subtitle 1 — Mont 600 (semibold), 20px, 1.7 */
   --text-subtitle1-font-size: 20px;
   --text-subtitle1-font-weight: 600;
   --text-subtitle1-line-height: 1.7;
 
-  /* desktop/Subtitle/Subtitle 2 — Mont 700, 16px, 1.5 */
+  /* desktop/Subtitle/Subtitle 2 — Mont 600 (semibold), 16px, 1.5 */
   --text-subtitle2-font-size: 16px;
   --text-subtitle2-font-weight: 600;
   --text-subtitle2-line-height: 1.5;
@@ -72,14 +72,14 @@
   --text-caption1-font-weight: 400;
   --text-caption1-line-height: 1.28571429;
 
-  /* desktop/Captions/Captions 3 — Mont 600, 12px, 1.5 */
+  /* desktop/Captions/Captions 3 — Mont 400 (regular), 12px, 1.5 */
   --text-caption3-font-size: 12px;
-  --text-caption3-font-weight: 600;
+  --text-caption3-font-weight: 400;
   --text-caption3-line-height: 1.5;
 
-  /* Body/BodyM — Mont 500, 16px, 1.5 */
+  /* Body/BodyM — Mont 400 (regular), 16px, 1.5 */
   --text-body-font-size: 16px;
-  --text-body-font-weight: 500;
+  --text-body-font-weight: 400;
   --text-body-line-height: 1.5;
 
   /* ========== Радиусы из Figma ========== */
