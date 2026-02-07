@@ -72,6 +72,11 @@
   --text-caption1-font-weight: 400;
   --text-caption1-line-height: 1.28571429;
 
+  /* desktop/Captions/Captions 2 — Mont 400, 13px, 18px */
+  --text-caption2-font-size: 13px;
+  --text-caption2-font-weight: 400;
+  --text-caption2-line-height: 18px;
+
   /* desktop/Captions/Captions 3 — Mont 400 (regular), 12px, 1.5 */
   --text-caption3-font-size: 12px;
   --text-caption3-font-weight: 400;

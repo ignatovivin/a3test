@@ -1,0 +1,18 @@
+/**
+ * Компонент Bage — бейдж с фоном и скруглением.
+ * Единый источник стилей: padding 4px 8px, gap 10px, radius 8px, фон #F9F9F9.
+ */
+
+.bage {
+  display: flex;
+  padding: 4px 8px;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  border-radius: var(--radius-md);
+  background: var(--color-bg-card-alt);
+  font-size: var(--text-caption3-font-size);
+  font-weight: var(--text-caption3-font-weight);
+  line-height: var(--text-caption3-line-height);
+  color: var(--color-text-secondary);
+}

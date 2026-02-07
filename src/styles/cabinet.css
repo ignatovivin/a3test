@@ -1478,12 +1478,21 @@ body.body-scroll-lock .cabinet-header-wrap {
 .cabinet-service-card {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 0;
   padding: 16px;
   background: var(--color-bg-card);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-lg);
   min-width: 0;
+}
+
+/* Верхняя строка: иконка слева, bage справа, на одном уровне по вертикали */
+.cabinet-service-card__top {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
 }
 
 .cabinet-service-card__icon {
@@ -1502,23 +1511,48 @@ body.body-scroll-lock .cabinet-header-wrap {
   display: block;
 }
 
-/* Заголовок карточки — Body M, отступ от иконки 32px */
+/* Стили бейджа — в компоненте Bage; здесь только раскладка в карточке */
+.cabinet-service-card__bage {
+  flex-shrink: 0;
+}
+
+/* Заголовок карточки — Body M, отступ от верхней строки 32px */
 .cabinet-service-card__title {
   font-size: var(--text-body-font-size);
   font-weight: var(--text-body-font-weight);
   line-height: var(--text-body-line-height);
   color: var(--color-text-primary);
   margin: 0;
-  margin-top: 20px; /* 12 (gap) + 20 = 32px от иконки */
+  margin-top: 32px; /* от иконки */
 }
 
-/* Подзаголовок карточки — Caption 3 */
+/* Подзаголовок карточки — Caption 2, 8px от заголовка */
 .cabinet-service-card__description {
-  font-size: var(--text-caption3-font-size);
-  font-weight: var(--text-caption3-font-weight);
-  line-height: var(--text-caption3-line-height);
+  font-size: var(--text-caption2-font-size);
+  font-weight: var(--text-caption2-font-weight);
+  line-height: var(--text-caption2-line-height);
   color: var(--color-text-secondary);
   margin: 0;
+  margin-top: 8px;
+}
+
+/* Третья карточка — градиент как в слайдере, текст и иконка Day/Gray/5 */
+.cabinet-service-card--gradient {
+  background: linear-gradient(99deg, #1B6FE7 4.41%, #69A6F1 100.67%);
+  border-color: transparent;
+}
+
+.cabinet-service-card--gradient .cabinet-service-card__icon img {
+  filter: brightness(0) invert(1);
+}
+
+.cabinet-service-card--gradient .cabinet-service-card__title,
+.cabinet-service-card--gradient .cabinet-service-card__description {
+  color: var(--color-bg-page);
+}
+
+.cabinet-service-card--gradient .cabinet-service-card__bage {
+  background: var(--color-white);
 }
 
 /* ========== Block «Подключить банк» — Figma node 344:4464 ========== */

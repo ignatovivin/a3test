@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import { Button } from '../components/Button/Button'
+import { Bage } from '../components/Bage/Bage'
 import { BanksModal } from '../components/BanksModal/BanksModal'
 import { CONNECTED_BANKS } from '../constants/banks'
 import { SERVICES } from '../constants/services'
@@ -177,10 +178,18 @@ export function Dashboard() {
           </Button>
         </div>
         <div className="cabinet-services-section__grid">
-          {SERVICES.map((service) => (
-            <div key={service.id} className="cabinet-service-card">
-              <div className="cabinet-service-card__icon" aria-hidden>
-                <img src="/tag.svg" alt="" width="32" height="32" />
+          {SERVICES.map((service, index) => (
+            <div
+              key={service.id}
+              className={`cabinet-service-card${index === 2 ? ' cabinet-service-card--gradient' : ''}`}
+            >
+              <div className="cabinet-service-card__top">
+                <div className="cabinet-service-card__icon" aria-hidden>
+                  <img src={service.icon} alt="" width="32" height="32" />
+                </div>
+                {service.bage && (
+                  <Bage className="cabinet-service-card__bage">{service.bage}</Bage>
+                )}
               </div>
               <h4 className="cabinet-service-card__title">{service.title}</h4>
               <p className="cabinet-service-card__description">{service.description}</p>
