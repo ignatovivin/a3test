@@ -1132,8 +1132,7 @@ body.body-scroll-lock .cabinet-header-wrap {
   align-self: center;
 }
 
-/* ========== Slider — Figma node 219:3927 ========== */
-/* layout_W8S8XB: column, center, gap 16px, padding 16px 20px, Day/White, stroke Day/Gray/10, radius 16px */
+/* ========== Slider — белый фон, Day/Gray/10 бордер, слева изображение, кнопка под текстом ========== */
 .cabinet-slider {
   display: flex;
   flex-direction: column;
@@ -1142,8 +1141,8 @@ body.body-scroll-lock .cabinet-header-wrap {
   align-self: stretch;
   gap: 16px;
   padding: 16px 20px;
-  min-height: 142px; /* базовая высота слайдера с учётом паддингов, можно расти выше */
-  background: linear-gradient(99deg, #1B6FE7 4.41%, #69A6F1 100.67%);
+  min-height: 142px;
+  background: var(--color-white);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-xl);
   overflow: hidden;
@@ -1174,26 +1173,45 @@ body.body-scroll-lock .cabinet-header-wrap {
 .cabinet-slider__inner {
   display: flex;
   flex-direction: row;
-  align-items: stretch; /* колонки одной высоты */
-  justify-content: space-between;
+  align-items: center;
   gap: 24px;
   width: 100%;
+}
+
+/* Изображение у правого края слайдера */
+.cabinet-slider__image {
+  flex-shrink: 0;
+  margin-left: auto;
+  display: block;
+  width: 220px;
+  height: auto;
+  object-fit: contain;
+}
+
+/* Контент справа: текстовый блок + кнопка под ним */
+.cabinet-slider__content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 42px;
+  max-width: 660px;
+  width: 100%;
+  min-width: 0;
 }
 
 .cabinet-slider__actions {
   flex-shrink: 0;
   display: flex;
-  align-items: flex-end; /* кнопка прибита к низу относительно текстового блока */
-  justify-content: flex-end;
+  align-items: center;
+  justify-content: flex-start;
 }
 
-/* Текстовый блок слева: заголовок, подзаголовок, кнопка — всё по левому краю */
+/* Текстовый блок: заголовок + подзаголовок */
 .cabinet-slider__text {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 24px;
-  max-width: 660px;
+  gap: 0;
   width: 100%;
 }
 
@@ -1205,10 +1223,10 @@ body.body-scroll-lock .cabinet-header-wrap {
 }
 
 .cabinet-slider__title {
-  font-size: var(--text-h3-mobile-font-size);   /* H4: 24px */
+  font-size: var(--text-h3-mobile-font-size);
   font-weight: var(--text-h3-font-weight);
   line-height: var(--text-h3-mobile-line-height);
-  color: var(--color-bg-page); /* Day/Gray/5 */
+  color: var(--color-text-primary);
   margin: 0;
 }
 
@@ -1216,19 +1234,19 @@ body.body-scroll-lock .cabinet-header-wrap {
   font-size: var(--text-caption1-font-size);
   font-weight: var(--text-caption1-font-weight);
   line-height: var(--text-caption1-line-height);
-  color: var(--color-bg-page); /* Day/Gray/5 */
+  color: var(--color-text-secondary);
   margin: 0;
 }
 
-/* Кнопка в слайдере — компонент Button (Primary M) */
+/* Кнопка в слайдере — Primary M */
 .cabinet-slider .btn--primary {
-  background: var(--color-bg-page); /* Day/Gray/5 */
-  color: var(--color-primary-90);   /* Day/Blue/90 */
+  background: var(--color-primary);
+  color: var(--color-on-primary);
 }
 
 .cabinet-slider .btn--primary:hover:not(:disabled) {
-  background: var(--color-border);  /* немного темнее на ховере */
-  color: var(--color-primary-90);
+  background: var(--color-primary-dark);
+  color: var(--color-on-primary);
 }
 
 /* Баннер справа: фиксированная высота, по вертикали по центру с текстом (как в референсе) */
@@ -1372,22 +1390,69 @@ body.body-scroll-lock .cabinet-header-wrap {
 /* Сетка 3 колонки: карточки растягиваются по ширине ячейки, пустая ячейка не заполняется */
 .cabinet-block__banks {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
   gap: 8px;
   align-self: stretch;
 }
 
-@media (max-width: 640px) {
+/* ≥1201px: 5 в один ряд */
+@media (min-width: 1201px) {
   .cabinet-block__banks {
-    grid-template-columns: repeat(2, 1fr); /* две карточки в ряд на мобильных, с пустым местом если не хватает карточек */
+    grid-template-columns: repeat(5, 1fr);
+  }
+}
+
+/* 1024px–1200px: два ряда (2 колонки) */
+@media (min-width: 1024px) and (max-width: 1200px) {
+  .cabinet-block__banks {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* до 1024px: адаптивно */
+@media (max-width: 1023px) {
+  .cabinet-block__banks {
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  }
+}
+
+/* На мобильных — слайдер: две карточки влезают, справа видна третья; блок с паддингами 16px по бокам */
+@media (max-width: 640px) {
+  .cabinet-banks-section .cabinet-block {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  .cabinet-block__banks {
+    --banks-slot-width: calc((100% - 8px) / 2.15);
+    margin-right: 0;
+    width: 100%;
+    box-sizing: border-box;
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 8px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+
+  .cabinet-block__banks::-webkit-scrollbar {
+    display: none;
+  }
+
+  .cabinet-block__banks .cabinet-bank-card {
+    flex: 0 0 var(--banks-slot-width);
+    min-width: 0;
+    scroll-snap-align: start;
   }
 }
 
 .cabinet-bank-card {
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  padding: 12px 16px;
+  gap: 16px;
+  padding: 16px;
   background: var(--color-bg-card-alt);
   border-radius: var(--radius-lg);
   min-width: 0;
@@ -1665,9 +1730,16 @@ body.body-scroll-lock .cabinet-header-wrap {
     gap: 64px; /* расстояние между текстовым блоком и кнопкой */
   }
 
-  /* Фиксированная высота блока с заголовком и подзаголовком */
-  .cabinet-slider__text {
-    height: 74px;
+  .cabinet-slider__image {
+    display: none;
+  }
+
+  .cabinet-slider__subtitle {
+    height: 36px;
+  }
+
+  .cabinet-slider__content {
+    gap: 64px;
   }
 
   .cabinet-slider__actions {
@@ -1687,9 +1759,26 @@ body.body-scroll-lock .cabinet-header-wrap {
     line-height: var(--text-h3-mobile-line-height);
   }
 
-  /* Фиксированная высота слайдера на мобилках, контент растягивается на всю высоту */
+  /* Фиксированная высота слайдера на мобилках; градиент и текст Day/Gray/5 */
   .cabinet-slider {
-    min-height: 240px;
+    height: 220px;
+    min-height: 220px;
+    background: linear-gradient(99deg, #1B6FE7 4.41%, #69A6F1 100.67%);
+  }
+
+  .cabinet-slider__title,
+  .cabinet-slider__subtitle {
+    color: var(--color-bg-page);
+  }
+
+  .cabinet-slider .btn--primary {
+    background: var(--color-bg-page);
+    color: var(--color-primary-90);
+  }
+
+  .cabinet-slider .btn--primary:hover:not(:disabled) {
+    background: var(--color-border);
+    color: var(--color-primary-90);
   }
 }
 

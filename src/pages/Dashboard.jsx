@@ -109,19 +109,28 @@ export function Dashboard() {
                 aria-hidden={index !== currentSlide}
               >
                 <div className="cabinet-slider__inner">
-                  <div className="cabinet-slider__text">
-                    <div className="cabinet-slider__text-block">
-                      <h4 className="cabinet-slider__title">
-                        {isMobile && slide.title === 'Единый реестр платежей' ? 'Реестр платежей' : slide.title}
-                      </h4>
-                      <p className="cabinet-slider__subtitle">{slide.subtitle}</p>
+                  <div className="cabinet-slider__content">
+                    <div className="cabinet-slider__text">
+                      <div className="cabinet-slider__text-block">
+                        <h4 className="cabinet-slider__title">
+                          {isMobile && slide.title === 'Единый реестр платежей' ? 'Реестр платежей' : slide.title}
+                        </h4>
+                        <p className="cabinet-slider__subtitle">{slide.subtitle}</p>
+                      </div>
+                    </div>
+                    <div className="cabinet-slider__actions">
+                      <Button type="button" variant="primary" size="m">
+                        {slide.buttonText}
+                      </Button>
                     </div>
                   </div>
-                  <div className="cabinet-slider__actions">
-                    <Button type="button" variant="primary" size="m">
-                      {slide.buttonText}
-                    </Button>
-                  </div>
+                  <img
+                    src="/slider-hero.png"
+                    alt=""
+                    className="cabinet-slider__image"
+                    width={220}
+                    height={192}
+                  />
                 </div>
               </div>
             ))}
