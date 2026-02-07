@@ -188,7 +188,7 @@ export function Dashboard() {
           ))}
         </div>
         <div className="cabinet-connect-bank" aria-label="Запрос новой услуги">
-          <Button type="button" variant="ghost" size="m" className="cabinet-connect-bank__btn" onClick={() => setBanksModalOpen(true)}>
+          <Button type="button" variant="ghost" size="m" className="cabinet-connect-bank__btn">
             Запрос новой услуги
           </Button>
         </div>

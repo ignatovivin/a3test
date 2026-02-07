@@ -1446,12 +1446,12 @@ body.body-scroll-lock .cabinet-header-wrap {
   align-self: stretch;
 }
 
-/* На мобильных — слайдер, справа видно 16px следующей карточки */
+/* На мобильных — слайдер, справа видна четверть следующей карточки (карточка 80% → видно 20% следующей) */
 @media (max-width: 640px) {
   .cabinet-services-section__grid {
-    --services-slot-width: calc(100% - 16px);
-    margin-right: -16px;
-    width: calc(100% + 16px);
+    --services-slot-width: 80%;
+    margin-right: 0;
+    width: 100%;
     box-sizing: border-box;
     display: flex;
     flex-wrap: nowrap;
