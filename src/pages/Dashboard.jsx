@@ -151,7 +151,8 @@ export function Dashboard() {
             </svg>
           </Button>
         </div>
-        <div className="cabinet-block__banks">
+        <div className="cabinet-block__banks-wrap">
+          <div className="cabinet-block__banks">
           {CONNECTED_BANKS.map((bank) => (
             <div key={bank.name} className="cabinet-bank-card">
               <div className="cabinet-bank-card__logo" aria-hidden>
@@ -160,6 +161,7 @@ export function Dashboard() {
               <span className="cabinet-bank-card__name">{bank.name}</span>
             </div>
           ))}
+          </div>
         </div>
         </section>
         <section className="cabinet-connect-bank" aria-label="Подключение банка">
@@ -176,7 +178,7 @@ export function Dashboard() {
       </div>
 
       {/* Блок «Услуги» — Figma node 336:8082: один смысловой блок (заголовок + карточки + кнопка) */}
-      <section className="cabinet-services-section" aria-labelledby="cabinet-services-title">
+      <div className="cabinet-services-section" aria-labelledby="cabinet-services-title">
         <div className="cabinet-services-section__header">
           <h3 id="cabinet-services-title" className="cabinet-block__title">Услуги</h3>
           <Button type="button" variant="ghost" size="s" className="cabinet-block__filter" aria-label="Все услуги">
@@ -210,7 +212,7 @@ export function Dashboard() {
             Запрос новой услуги
           </Button>
         </div>
-      </section>
+      </div>
     </>
   )
 }

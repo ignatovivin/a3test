@@ -1314,6 +1314,17 @@ body.body-scroll-lock .cabinet-header-wrap {
   gap: 8px;
 }
 
+/* Блок «Подключенные банки» без фона и бордера, без паддингов; 8px между заголовком и блоком карточек */
+.cabinet-banks-section .cabinet-block {
+  background: transparent;
+  border: none;
+  padding-top: 0;
+  padding-right: 0;
+  padding-bottom: 0;
+  padding-left: 0;
+  gap: 8px;
+}
+
 /* ========== Block «Подключенные банки» — Figma node 219:4011 ========== */
 /* layout_RXPY5Y: column, stretch, gap 16px, padding 16px 20px 12px, Day/White, stroke Day/Gray/10, radius 16px */
 .cabinet-block {
@@ -1386,8 +1397,19 @@ body.body-scroll-lock .cabinet-header-wrap {
   flex-shrink: 0;
 }
 
+/* Обёртка карточек — Figma 369-8395 Header: белый фон, бордер Gray/10, radius 16px, padding 16px */
+.cabinet-block__banks-wrap {
+  display: flex;
+  flex-direction: column;
+  align-self: stretch;
+  gap: 16px;
+  padding: 16px;
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+}
+
 /* layout_CA5OMX: Bank Cards Container — column, stretch, gap 8px */
-/* Сетка 3 колонки: карточки растягиваются по ширине ячейки, пустая ячейка не заполняется */
 .cabinet-block__banks {
   display: grid;
   gap: 8px;
@@ -1401,27 +1423,15 @@ body.body-scroll-lock .cabinet-header-wrap {
   }
 }
 
-/* 1024px–1200px: два ряда (2 колонки) */
-@media (min-width: 1024px) and (max-width: 1200px) {
+/* 641px–1200px: грид 3 колонки (3 карточки в первом ряду, 2 во втором) — до мобильных */
+@media (min-width: 641px) and (max-width: 1200px) {
   .cabinet-block__banks {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(3, 1fr);
   }
 }
 
-/* до 1024px: адаптивно */
-@media (max-width: 1023px) {
-  .cabinet-block__banks {
-    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  }
-}
-
-/* На мобильных — слайдер: две карточки влезают, справа видна третья; блок с паддингами 16px по бокам */
+/* На мобильных — слайдер: две карточки влезают, справа видна третья */
 @media (max-width: 640px) {
-  .cabinet-banks-section .cabinet-block {
-    padding-left: 16px;
-    padding-right: 16px;
-  }
-
   .cabinet-block__banks {
     --banks-slot-width: calc((100% - 8px) / 2.15);
     margin-right: 0;
@@ -1451,7 +1461,7 @@ body.body-scroll-lock .cabinet-header-wrap {
 .cabinet-bank-card {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 24px;
   padding: 16px;
   background: var(--color-bg-card-alt);
   border-radius: var(--radius-lg);
@@ -1491,8 +1501,7 @@ body.body-scroll-lock .cabinet-header-wrap {
   flex-direction: column;
   align-self: stretch;
   gap: 8px;
-  margin-top: 16px; /* 16 (gap контента) + 16 = 32px от блока банки до блока услуги */
-  /* без фона и бордера — отличается от блока «Подключенные банки» */
+  /* без фона и бордера; отступ сверху только от gap родителя (.cabinet-content 24px) */
 }
 
 .cabinet-services-section__header {
@@ -1511,10 +1520,10 @@ body.body-scroll-lock .cabinet-header-wrap {
   align-self: stretch;
 }
 
-/* На мобильных — слайдер, справа видна четверть следующей карточки (карточка 80% → видно 20% следующей) */
+/* На мобильных — слайдер: две карточки целиком и кусок третьей */
 @media (max-width: 640px) {
   .cabinet-services-section__grid {
-    --services-slot-width: 80%;
+    --services-slot-width: calc((100% - 8px) / 2.15);
     margin-right: 0;
     width: 100%;
     box-sizing: border-box;
@@ -1588,7 +1597,7 @@ body.body-scroll-lock .cabinet-header-wrap {
   line-height: var(--text-body-line-height);
   color: var(--color-text-primary);
   margin: 0;
-  margin-top: 32px; /* от иконки */
+  margin-top: 24px;
 }
 
 /* Подзаголовок карточки — Caption 2, 8px от заголовка */
