@@ -1543,7 +1543,7 @@ body.body-scroll-lock .cabinet-header-wrap {
 
   .cabinet-services-section__grid .cabinet-service-card {
     flex: 0 0 var(--services-slot-width);
-    min-width: 0;
+    min-width: 267px;
     scroll-snap-align: start;
   }
 }
