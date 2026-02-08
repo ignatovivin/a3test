@@ -1,5 +1,12 @@
 # React + Vite
 
+## Ветки и деплой
+
+- **main** — продакшен. Связана с Vercel: каждый push в `main` автоматически деплоится.
+- **test** — для локальной разработки. Все изменения делайте в `test`, после проверки мержите в `main` и пушите — Vercel задеплоит.
+
+**Как связать main с Vercel:** в [Vercel Dashboard](https://vercel.com/dashboard) → проект → Settings → Git → Production Branch установите `main` (или оставьте, если уже так).
+
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
 Currently, two official plugins are available:
