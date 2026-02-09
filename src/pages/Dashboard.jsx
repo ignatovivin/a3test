@@ -4,6 +4,7 @@ import { Bage } from '../components/Bage/Bage'
 import { BanksModal } from '../components/BanksModal/BanksModal'
 import { ServiceModal } from '../components/ServiceModal/ServiceModal'
 import { ChevronRightIcon } from '../components/icons/ChevronRightIcon'
+import { PlusIcon } from '../components/icons/PlusIcon'
 import { CONNECTED_BANKS } from '../constants/banks'
 import { SERVICES } from '../constants/services'
 import { SLIDES, SLIDER_AUTOPLAY_MS, MOBILE_BREAKPOINT } from '../constants/slider'
@@ -138,26 +139,26 @@ export function Dashboard() {
             </Button>
           </div>
           <div className="cabinet-block__banks-wrap">
-            <div className="cabinet-block__banks">
+            <div className="cabinet-block__banks" role="list">
               {CONNECTED_BANKS.map((bank) => (
-                <div key={bank.name} className="cabinet-bank-card">
+                <div key={bank.name} className="cabinet-bank-card" role="listitem">
                   <div className="cabinet-bank-card__logo" aria-hidden>
                     <img src={bank.logo} alt="" width="32" height="32" />
                   </div>
                   <span className="cabinet-bank-card__name">{bank.name}</span>
                 </div>
               ))}
-            </div>
-            <div className="cabinet-connect-bank" aria-label="Подключение банка">
-              <Button
+              <button
                 type="button"
-                variant="ghost"
-                size="s"
-                className="cabinet-connect-bank__btn"
+                className="cabinet-connect-bank"
                 onClick={() => setBanksModalOpen(true)}
+                aria-label="Подключить банк"
               >
-                Подключить банк
-              </Button>
+                <span className="cabinet-connect-bank__icon" aria-hidden>
+                  <PlusIcon />
+                </span>
+                <span className="cabinet-connect-bank__text">Подключить банк</span>
+              </button>
             </div>
           </div>
         </section>

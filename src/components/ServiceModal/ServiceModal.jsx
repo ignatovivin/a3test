@@ -2,6 +2,7 @@ import { createPortal } from 'react-dom'
 import { useState, useEffect, useCallback } from 'react'
 import { Button } from '../Button/Button'
 import { CloseIcon } from '../icons/CloseIcon'
+import { lockBodyScroll, unlockBodyScroll } from '../../utils/bodyScrollLock'
 import { MODAL_CLOSE_DELAY_MS } from '../../constants/timing'
 
 export function ServiceModal({ service, onClose, onToggle }) {
@@ -22,10 +23,10 @@ export function ServiceModal({ service, onClose, onToggle }) {
       if (e.key === 'Escape') handleClose()
     }
     document.addEventListener('keydown', handleEscape)
-    document.body.classList.add('body-scroll-lock')
+    lockBodyScroll()
     return () => {
       document.removeEventListener('keydown', handleEscape)
-      document.body.classList.remove('body-scroll-lock')
+      unlockBodyScroll()
     }
   }, [service, handleClose])
 

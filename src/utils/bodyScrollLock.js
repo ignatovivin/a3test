@@ -14,6 +14,7 @@ let scrollContainer = null
 let usedFixed = false
 
 function applyLock() {
+  document.documentElement.classList.add(LOCK_CLASS)
   document.body.classList.add(LOCK_CLASS)
   const isDesktop = typeof window !== 'undefined' && window.innerWidth >= DESKTOP_BREAKPOINT
 
@@ -37,6 +38,7 @@ function applyLock() {
 }
 
 function removeLock() {
+  document.documentElement.classList.remove(LOCK_CLASS)
   document.body.classList.remove(LOCK_CLASS)
   if (usedFixed && scrollContainer) {
     scrollContainer.style.position = ''

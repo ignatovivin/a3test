@@ -1,12 +1,12 @@
 /**
- * Модальное окно «Подключенные банки» — Figma node 219-8005.
- * Открывается по кнопкам «Все» и «Подключить банк».
+ * Модальное окно «Подключенные банки». Открывается по кнопкам «Все» и «Подключить банк».
  */
 
 import { useCallback, useEffect, useState } from 'react'
 import { createPortal } from 'react-dom'
 import { Button } from '../Button/Button'
 import { CloseIcon } from '../icons/CloseIcon'
+import { lockBodyScroll, unlockBodyScroll } from '../../utils/bodyScrollLock'
 import { CONNECTED_BANKS, AVAILABLE_BANKS } from '../../constants/banks'
 import { MODAL_CLOSE_DELAY_MS, BANK_SUBMIT_DELAY_MS } from '../../constants/timing'
 
@@ -25,12 +25,6 @@ export function BanksModal({ isOpen, onClose }) {
   const handleSubmit = () => {
     if (isSubmitting || selectedBankIds.length === 0) return
     setIsSubmitting(true)
-    const selectedBanks = AVAILABLE_BANKS.filter((bank) =>
-      selectedBankIds.includes(bank.id),
-    )
-    // Здесь позже можно заменить на реальный вызов API
-    // или колбэк из пропсов
-    // Эмуляция запроса: сначала показываем процессинг, затем успех
     setTimeout(() => {
       setShowSuccess(true)
       setIsSubmitting(false)
@@ -54,11 +48,10 @@ export function BanksModal({ isOpen, onClose }) {
       if (e.key === 'Escape') handleClose()
     }
     document.addEventListener('keydown', handleEscape)
-    // Блокируем скролл сайта под дровером
-    document.body.classList.add('body-scroll-lock')
+    lockBodyScroll()
     return () => {
       document.removeEventListener('keydown', handleEscape)
-      document.body.classList.remove('body-scroll-lock')
+      unlockBodyScroll()
     }
   }, [isOpen, handleClose])
 
@@ -66,15 +59,20 @@ export function BanksModal({ isOpen, onClose }) {
 
   const modalContent = (
     <div
-      className={`banks-modal-overlay${isClosing ? ' banks-modal-overlay--closing' : ''}`}
-      onClick={handleClose}
+      className="banks-modal-root"
       role="dialog"
       aria-modal="true"
       aria-labelledby={showSuccess ? 'banks-modal-success-title' : 'banks-modal-title'}
     >
       <div
+        className={'banks-modal-overlay' + (isClosing ? ' banks-modal-overlay--closing' : '')}
+        onClick={handleClose}
+        aria-hidden="true"
+      />
+      <div
         className={
-          `banks-modal${showSuccess ? ' banks-modal--success' : ''}` +
+          'banks-modal' +
+          (showSuccess ? ' banks-modal--success' : '') +
           (isClosing ? ' banks-modal--closing' : '')
         }
         onClick={(e) => e.stopPropagation()}
@@ -136,10 +134,10 @@ export function BanksModal({ isOpen, onClose }) {
                       <button
                         key={bank.id}
                         type="button"
-                        className={
-                          `banks-modal__card banks-modal__card--available` +
-                          (isSelected ? ' banks-modal__card--available-selected' : '')
-                        }
+                className={
+                  'banks-modal__card banks-modal__card--available' +
+                  (isSelected ? ' banks-modal__card--available-selected' : '')
+                }
                         onClick={() => toggleBank(bank.id)}
                         aria-pressed={isSelected ? 'true' : 'false'}
                       >
@@ -179,7 +177,9 @@ export function BanksModal({ isOpen, onClose }) {
                 type="button"
                 variant="primary"
                 size="m"
-                className={`banks-modal__submit${isSubmitting ? ' banks-modal__submit--loading' : ''}`}
+                className={
+                  'banks-modal__submit' + (isSubmitting ? ' banks-modal__submit--loading' : '')
+                }
                 disabled={selectedBankIds.length === 0 || isSubmitting}
                 onClick={handleSubmit}
                 aria-busy={isSubmitting ? 'true' : 'false'}
