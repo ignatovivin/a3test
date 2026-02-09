@@ -6,13 +6,13 @@
 import { useCallback, useEffect, useState } from 'react'
 import { createPortal } from 'react-dom'
 import { Button } from '../Button/Button'
-import { lockBodyScroll, unlockBodyScroll } from '../../utils/bodyScrollLock'
 import { CONNECTED_BANKS, AVAILABLE_BANKS } from '../../constants/banks'
 
 export function BanksModal({ isOpen, onClose }) {
   const [isClosing, setIsClosing] = useState(false)
   const [showSuccess, setShowSuccess] = useState(false)
   const [selectedBankIds, setSelectedBankIds] = useState([])
+  const [isSubmitting, setIsSubmitting] = useState(false)
 
   const toggleBank = (id) => {
     setSelectedBankIds((prev) =>
@@ -21,13 +21,19 @@ export function BanksModal({ isOpen, onClose }) {
   }
 
   const handleSubmit = () => {
+    if (isSubmitting || selectedBankIds.length === 0) return
+    setIsSubmitting(true)
     const selectedBanks = AVAILABLE_BANKS.filter((bank) =>
       selectedBankIds.includes(bank.id),
     )
     // Здесь позже можно заменить на реальный вызов API
     // или колбэк из пропсов, сейчас просто логируем.
     console.log('Banks to connect:', selectedBanks)
-    setShowSuccess(true)
+    // Эмуляция запроса: сначала показываем процессинг, затем успех
+    setTimeout(() => {
+      setShowSuccess(true)
+      setIsSubmitting(false)
+    }, 800)
   }
 
   const handleClose = useCallback(() => {
@@ -36,6 +42,7 @@ export function BanksModal({ isOpen, onClose }) {
     setTimeout(() => {
       setShowSuccess(false)
       setSelectedBankIds([])
+      setIsSubmitting(false)
       setIsClosing(false)
       onClose()
     }, 200)
@@ -46,10 +53,12 @@ export function BanksModal({ isOpen, onClose }) {
       if (e.key === 'Escape') handleClose()
     }
     document.addEventListener('keydown', handleEscape)
-    lockBodyScroll()
+    // Для drawer не используем lockBodyScroll - overlay сам блокирует скролл через CSS
+    // чтобы избежать сдвига контента на мобильных
+    document.body.style.overflow = 'hidden'
     return () => {
       document.removeEventListener('keydown', handleEscape)
-      unlockBodyScroll()
+      document.body.style.overflow = ''
     }
   }, [isOpen, handleClose])
 
@@ -70,24 +79,22 @@ export function BanksModal({ isOpen, onClose }) {
         }
         onClick={(e) => e.stopPropagation()}
       >
-        {!showSuccess && (
-          <header className="banks-modal__header">
-            <h2 id="banks-modal-title" className="banks-modal__title">
-              Подключенные банки
-            </h2>
-            <button
-              type="button"
-              className="banks-modal__close"
-              onClick={handleClose}
-              aria-label="Закрыть"
-            >
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-                <line x1="18" y1="6" x2="6" y2="18" />
-                <line x1="6" y1="6" x2="18" y2="18" />
-              </svg>
-            </button>
-          </header>
-        )}
+        <header className="banks-modal__header">
+          <h2 id="banks-modal-title" className="banks-modal__title">
+            Все банки
+          </h2>
+          <button
+            type="button"
+            className="banks-modal__close"
+            onClick={handleClose}
+            aria-label="Закрыть"
+          >
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+              <line x1="18" y1="6" x2="6" y2="18" />
+              <line x1="6" y1="6" x2="18" y2="18" />
+            </svg>
+          </button>
+        </header>
 
         <div className="banks-modal__spacer" aria-hidden />
 
@@ -104,6 +111,64 @@ export function BanksModal({ isOpen, onClose }) {
                 Мы получили запрос на подключение выбранных банков. После обработки они появятся в списке подключённых.
               </p>
             </div>
+          </div>
+        ) : (
+          <div className="banks-modal__scroll">
+            <div className="banks-modal__content">
+              <div className="banks-modal__section">
+                <h3 className="banks-modal__section-title">Подключенные банки</h3>
+                <div className="banks-modal__bank-rows">
+                  {CONNECTED_BANKS.map((bank) => (
+                    <div key={bank.name} className="banks-modal__card banks-modal__card--connected">
+                      <div className="banks-modal__card-logo" aria-hidden>
+                        <img src={bank.logo} alt="" width="32" height="32" />
+                      </div>
+                      <span className="banks-modal__card-name">{bank.name}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div className="banks-modal__section banks-modal__section--available">
+                <div className="banks-modal__section-head">
+                  <h3 className="banks-modal__section-title">Банки доступные к подключению</h3>
+                  <p className="banks-modal__section-subtitle">Выберите один или несколько</p>
+                </div>
+                <div className="banks-modal__bank-rows">
+                  {AVAILABLE_BANKS.map((bank) => {
+                    const isSelected = selectedBankIds.includes(bank.id)
+                    return (
+                      <button
+                        key={bank.id}
+                        type="button"
+                        className={
+                          `banks-modal__card banks-modal__card--available` +
+                          (isSelected ? ' banks-modal__card--available-selected' : '')
+                        }
+                        onClick={() => toggleBank(bank.id)}
+                        aria-pressed={isSelected ? 'true' : 'false'}
+                      >
+                        {bank.logo ? (
+                          <span className="banks-modal__card-logo" aria-hidden>
+                            <img src={bank.logo} alt="" width="32" height="32" />
+                          </span>
+                        ) : (
+                          <span className="banks-modal__card-logo banks-modal__card-logo--placeholder" aria-hidden>
+                            {bank.name.charAt(0)}
+                          </span>
+                        )}
+                        <span className="banks-modal__card-name">{bank.name}</span>
+                      </button>
+                    )
+                  })}
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        <div className="banks-modal__footer">
+          {showSuccess ? (
             <Button
               type="button"
               variant="primary"
@@ -113,75 +178,31 @@ export function BanksModal({ isOpen, onClose }) {
             >
               Хорошо
             </Button>
-          </div>
-        ) : (
-          <>
-            <div className="banks-modal__scroll">
-              <div className="banks-modal__content">
-                <div className="banks-modal__section">
-                  <div className="banks-modal__bank-rows">
-                    {CONNECTED_BANKS.map((bank) => (
-                      <div key={bank.name} className="banks-modal__card banks-modal__card--connected">
-                        <div className="banks-modal__card-logo" aria-hidden>
-                          <img src={bank.logo} alt="" width="32" height="32" />
-                        </div>
-                        <span className="banks-modal__card-name">{bank.name}</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                <div className="banks-modal__section banks-modal__section--available">
-                  <div className="banks-modal__section-head">
-                    <h3 className="banks-modal__section-title">Банки доступные к подключению</h3>
-                    <p className="banks-modal__section-subtitle">Выберите один или несколько</p>
-                  </div>
-                  <div className="banks-modal__bank-rows">
-                    {AVAILABLE_BANKS.map((bank) => {
-                      const isSelected = selectedBankIds.includes(bank.id)
-                      return (
-                        <button
-                          key={bank.id}
-                          type="button"
-                          className={
-                            `banks-modal__card banks-modal__card--available` +
-                            (isSelected ? ' banks-modal__card--available-selected' : '')
-                          }
-                          onClick={() => toggleBank(bank.id)}
-                          aria-pressed={isSelected ? 'true' : 'false'}
-                        >
-                          {bank.logo ? (
-                            <span className="banks-modal__card-logo" aria-hidden>
-                              <img src={bank.logo} alt="" width="32" height="32" />
-                            </span>
-                          ) : (
-                            <span className="banks-modal__card-logo banks-modal__card-logo--placeholder" aria-hidden>
-                              {bank.name.charAt(0)}
-                            </span>
-                          )}
-                          <span className="banks-modal__card-name">{bank.name}</span>
-                        </button>
-                      )
-                    })}
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="banks-modal__footer">
+          ) : (
+            <>
               <Button
                 type="button"
                 variant="primary"
                 size="m"
-                className="banks-modal__submit"
-                disabled={selectedBankIds.length === 0}
+                className={`banks-modal__submit${isSubmitting ? ' banks-modal__submit--loading' : ''}`}
+                disabled={selectedBankIds.length === 0 || isSubmitting}
                 onClick={handleSubmit}
+                aria-busy={isSubmitting ? 'true' : 'false'}
               >
-                Подключить
+                {isSubmitting && <span className="banks-modal__spinner" aria-hidden />}
+                <span>Подключить банк</span>
               </Button>
-            </div>
-          </>
-        )}
+              <Button
+                type="button"
+                variant="secondary"
+                size="m"
+                onClick={handleClose}
+              >
+                Отмена
+              </Button>
+            </>
+          )}
+        </div>
       </div>
     </div>
   )

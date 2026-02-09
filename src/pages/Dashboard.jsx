@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react'
 import { Button } from '../components/Button/Button'
 import { Bage } from '../components/Bage/Bage'
 import { BanksModal } from '../components/BanksModal/BanksModal'
+import { ServiceModal } from '../components/ServiceModal/ServiceModal'
 import { CONNECTED_BANKS } from '../constants/banks'
 import { SERVICES } from '../constants/services'
 
@@ -36,6 +37,7 @@ export function Dashboard() {
   const [isJumping, setIsJumping] = useState(false)
   const [banksModalOpen, setBanksModalOpen] = useState(false)
   const [isMobile, setIsMobile] = useState(false)
+  const [activeService, setActiveService] = useState(null)
   const listRef = useRef(null)
 
   useEffect(() => {
@@ -141,39 +143,60 @@ export function Dashboard() {
       {/* Один смысловой блок: подключенные банки + кнопка (gap 8) */}
       <div className="cabinet-banks-section">
         <section className="cabinet-block">
-        <div className="cabinet-block__header">
-          <h3 className="cabinet-block__title">Подключенные банки</h3>
-          {/* Кнопка «Все» — Button Ghost S + фон как в Figma node 219-4014 */}
-          <Button type="button" variant="ghost" size="s" className="cabinet-block__filter" aria-label="Фильтр: Все" onClick={() => setBanksModalOpen(true)}>
-            <span className="cabinet-block__filter-text">Все</span>
-            <svg className="cabinet-block__filter-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
-              <path d="M15.7559 11.6387C15.9477 11.8412 15.9477 12.1588 15.7559 12.3613L9.00586 19.4863C8.80642 19.6966 8.47407 19.7052 8.26367 19.5059C8.05345 19.3064 8.04481 18.9741 8.24414 18.7637L14.6523 12L8.24414 5.23633C8.04481 5.02593 8.05345 4.69358 8.26367 4.49414C8.47407 4.29481 8.80642 4.30345 9.00586 4.51367L15.7559 11.6387Z" fill="currentColor" stroke="currentColor" strokeWidth="0.3" strokeLinecap="round" />
-            </svg>
-          </Button>
-        </div>
-        <div className="cabinet-block__banks-wrap">
-          <div className="cabinet-block__banks">
-          {CONNECTED_BANKS.map((bank) => (
-            <div key={bank.name} className="cabinet-bank-card">
-              <div className="cabinet-bank-card__logo" aria-hidden>
-                <img src={bank.logo} alt="" width="32" height="32" />
-              </div>
-              <span className="cabinet-bank-card__name">{bank.name}</span>
-            </div>
-          ))}
+          <div className="cabinet-block__header">
+            <h3 className="cabinet-block__title">Подключенные банки</h3>
+            {/* Кнопка «Все» — Button Ghost S + фон как в Figma node 219-4014 */}
+            <Button
+              type="button"
+              variant="ghost"
+              size="s"
+              className="cabinet-block__filter"
+              aria-label="Фильтр: Все"
+              onClick={() => setBanksModalOpen(true)}
+            >
+              <span className="cabinet-block__filter-text">Все</span>
+              <svg
+                className="cabinet-block__filter-chevron"
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                aria-hidden
+              >
+                <path
+                  d="M15.7559 11.6387C15.9477 11.8412 15.9477 12.1588 15.7559 12.3613L9.00586 19.4863C8.80642 19.6966 8.47407 19.7052 8.26367 19.5059C8.05345 19.3064 8.04481 18.9741 8.24414 18.7637L14.6523 12L8.24414 5.23633C8.04481 5.02593 8.05345 4.69358 8.26367 4.49414C8.47407 4.29481 8.80642 4.30345 9.00586 4.51367L15.7559 11.6387Z"
+                  fill="currentColor"
+                  stroke="currentColor"
+                  strokeWidth="0.3"
+                  strokeLinecap="round"
+                />
+              </svg>
+            </Button>
           </div>
-        </div>
-        </section>
-        <section className="cabinet-connect-bank" aria-label="Подключение банка">
-        <Button
-          type="button"
-          variant="ghost"
-          size="m"
-          className="cabinet-connect-bank__btn"
-          onClick={() => setBanksModalOpen(true)}
-        >
-          Подключить банк
-        </Button>
+          <div className="cabinet-block__banks-wrap">
+            <div className="cabinet-block__banks">
+              {CONNECTED_BANKS.map((bank) => (
+                <div key={bank.name} className="cabinet-bank-card">
+                  <div className="cabinet-bank-card__logo" aria-hidden>
+                    <img src={bank.logo} alt="" width="32" height="32" />
+                  </div>
+                  <span className="cabinet-bank-card__name">{bank.name}</span>
+                </div>
+              ))}
+            </div>
+            <div className="cabinet-connect-bank" aria-label="Подключение банка">
+              <Button
+                type="button"
+                variant="ghost"
+                size="s"
+                className="cabinet-connect-bank__btn"
+                onClick={() => setBanksModalOpen(true)}
+              >
+                Подключить банк
+              </Button>
+            </div>
+          </div>
         </section>
       </div>
 
@@ -189,10 +212,10 @@ export function Dashboard() {
           </Button>
         </div>
         <div className="cabinet-services-section__grid">
-          {SERVICES.map((service, index) => (
+          {SERVICES.map((service) => (
             <div
               key={service.id}
-              className={`cabinet-service-card${index === 2 ? ' cabinet-service-card--gradient' : ''}`}
+              className="cabinet-service-card"
             >
               <div className="cabinet-service-card__top">
                 <div className="cabinet-service-card__icon" aria-hidden>
@@ -204,15 +227,20 @@ export function Dashboard() {
               </div>
               <h4 className="cabinet-service-card__title">{service.title}</h4>
               <p className="cabinet-service-card__description">{service.description}</p>
+              <Button
+                type="button"
+                variant="ghost"
+                size="s"
+                className="cabinet-service-card__link"
+                onClick={() => setActiveService(service)}
+              >
+                Подробнее
+              </Button>
             </div>
           ))}
         </div>
-        <div className="cabinet-connect-bank" aria-label="Запрос новой услуги">
-          <Button type="button" variant="ghost" size="m" className="cabinet-connect-bank__btn">
-            Запрос новой услуги
-          </Button>
-        </div>
       </div>
+      <ServiceModal service={activeService} onClose={() => setActiveService(null)} />
     </>
   )
 }
