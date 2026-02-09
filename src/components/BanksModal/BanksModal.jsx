@@ -6,7 +6,9 @@
 import { useCallback, useEffect, useState } from 'react'
 import { createPortal } from 'react-dom'
 import { Button } from '../Button/Button'
+import { CloseIcon } from '../icons/CloseIcon'
 import { CONNECTED_BANKS, AVAILABLE_BANKS } from '../../constants/banks'
+import { MODAL_CLOSE_DELAY_MS, BANK_SUBMIT_DELAY_MS } from '../../constants/timing'
 
 export function BanksModal({ isOpen, onClose }) {
   const [isClosing, setIsClosing] = useState(false)
@@ -27,13 +29,12 @@ export function BanksModal({ isOpen, onClose }) {
       selectedBankIds.includes(bank.id),
     )
     // Здесь позже можно заменить на реальный вызов API
-    // или колбэк из пропсов, сейчас просто логируем.
-    console.log('Banks to connect:', selectedBanks)
+    // или колбэк из пропсов
     // Эмуляция запроса: сначала показываем процессинг, затем успех
     setTimeout(() => {
       setShowSuccess(true)
       setIsSubmitting(false)
-    }, 800)
+    }, BANK_SUBMIT_DELAY_MS)
   }
 
   const handleClose = useCallback(() => {
@@ -45,7 +46,7 @@ export function BanksModal({ isOpen, onClose }) {
       setIsSubmitting(false)
       setIsClosing(false)
       onClose()
-    }, 200)
+    }, MODAL_CLOSE_DELAY_MS)
   }, [isClosing, onClose])
   useEffect(() => {
     if (!isOpen) return
@@ -53,12 +54,11 @@ export function BanksModal({ isOpen, onClose }) {
       if (e.key === 'Escape') handleClose()
     }
     document.addEventListener('keydown', handleEscape)
-    // Для drawer не используем lockBodyScroll - overlay сам блокирует скролл через CSS
-    // чтобы избежать сдвига контента на мобильных
-    document.body.style.overflow = 'hidden'
+    // Блокируем скролл сайта под дровером
+    document.body.classList.add('body-scroll-lock')
     return () => {
       document.removeEventListener('keydown', handleEscape)
-      document.body.style.overflow = ''
+      document.body.classList.remove('body-scroll-lock')
     }
   }, [isOpen, handleClose])
 
@@ -89,14 +89,9 @@ export function BanksModal({ isOpen, onClose }) {
             onClick={handleClose}
             aria-label="Закрыть"
           >
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-              <line x1="18" y1="6" x2="6" y2="18" />
-              <line x1="6" y1="6" x2="18" y2="18" />
-            </svg>
+            <CloseIcon />
           </button>
         </header>
-
-        <div className="banks-modal__spacer" aria-hidden />
 
         {showSuccess ? (
           <div className="banks-modal__content banks-modal__content--success">

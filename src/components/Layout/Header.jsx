@@ -6,32 +6,10 @@ import { PersonalIcon } from '../icons/PersonalIcon'
 import { ArrowDownIcon } from '../icons/ArrowDownIcon'
 import { LogoutIcon } from '../icons/LogoutIcon'
 import { ServiceCaptionIcon } from '../icons/ServiceCaptionIcon'
+import { NavIcon } from '../icons/NavIcon'
 import { Button } from '../Button/Button'
-import { navItems } from './navItems'
-import { FlatIcon } from '../icons/FlatIcon'
-import { NewIcon } from '../icons/NewIcon'
-import { SettingIcon } from '../icons/SettingIcon'
-import { CashIcon } from '../icons/CashIcon'
-import { PaymentIcon } from '../icons/PaymentIcon'
-import { QrIcon } from '../icons/QrIcon'
-import { CalendarIcon } from '../icons/CalendarIcon'
-
-const DROPDOWN_OPTIONS = [
-  { id: '1', label: 'Заявка № 12345' },
-  { id: '2', label: 'Договор № 67890' },
-  { id: '3', label: 'Заявка № 11111' },
-]
-
-function MenuLinkIcon({ icon }) {
-  if (icon === 'flat') return <FlatIcon className="cabinet-header__menu-item-icon" />
-  if (icon === 'new') return <NewIcon className="cabinet-header__menu-item-icon" />
-  if (icon === 'setting') return <SettingIcon className="cabinet-header__menu-item-icon" />
-  if (icon === 'cash') return <CashIcon className="cabinet-header__menu-item-icon" />
-  if (icon === 'payment') return <PaymentIcon className="cabinet-header__menu-item-icon" />
-  if (icon === 'qr') return <QrIcon className="cabinet-header__menu-item-icon" />
-  if (icon === 'calendar') return <CalendarIcon className="cabinet-header__menu-item-icon" />
-  return null
-}
+import { navItems } from '../../constants/routes'
+import { DROPDOWN_OPTIONS } from '../../constants/header'
 
 export function Header() {
   const [dropdownOpen, setDropdownOpen] = useState(false)
@@ -209,7 +187,7 @@ export function Header() {
                             onClick={() => setMenuOpen(false)}
                             role="menuitem"
                           >
-                            <MenuLinkIcon icon={icon} />
+                            <NavIcon icon={icon} className="cabinet-header__menu-item-icon" />
                             {label}
                           </NavLink>
                         </li>

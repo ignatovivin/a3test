@@ -1,44 +1,42 @@
 import { createPortal } from 'react-dom'
+import { useState, useEffect, useCallback } from 'react'
 import { Button } from '../Button/Button'
-
-// Текстовые шаблоны для модалок услуг
-const SERVICE_MODAL_CONTENT = {
-  banks: {
-    description:
-      'Сервис собирает все начисления по адресу и показывает единую картину платежей по банкам и услугам.',
-    price: 'Бесплатно',
-    priceValue: null,
-    benefit:
-      'Рост собираемости платежей за счёт удобного сценария «заплатить всё разом» и снижение просрочки по начислениям.',
-  },
-  'insurance-1': {
-    description:
-      'Страхование обязательных платежей и коммунальных услуг — защита от непредвиденных расходов для собственников.',
-    price: '300₽/мес',
-    priceValue: '300₽/мес',
-    benefit:
-      'Дополнительный источник дохода от страховых партнёров и снижение финансовых рисков по задолженности клиентов.',
-  },
-  'insurance-2': {
-    description:
-      'Расширенные программы страхования для собственников: имущество, ответственность перед соседями и дополнительные опции.',
-    price: 'От 500₽/мес',
-    priceValue: '500₽/мес',
-    benefit:
-      'Увеличение среднего чека за счёт доппродаж и повышение лояльности клиентов за счёт расширенной защиты.',
-  },
-}
+import { CloseIcon } from '../icons/CloseIcon'
+import { MODAL_CLOSE_DELAY_MS } from '../../constants/timing'
 
 export function ServiceModal({ service, onClose, onToggle }) {
-  if (!service) return null
+  const [isClosing, setIsClosing] = useState(false)
 
-  const isConnected = service.bage === 'Подключена'
-  const content = SERVICE_MODAL_CONTENT[service.id] || {}
-  const descriptionText = content.description || service.description
+  const handleClose = useCallback(() => {
+    if (isClosing) return
+    setIsClosing(true)
+    setTimeout(() => {
+      setIsClosing(false)
+      onClose()
+    }, MODAL_CLOSE_DELAY_MS)
+  }, [isClosing, onClose])
+
+  useEffect(() => {
+    if (!service) return
+    const handleEscape = (e) => {
+      if (e.key === 'Escape') handleClose()
+    }
+    document.addEventListener('keydown', handleEscape)
+    document.body.classList.add('body-scroll-lock')
+    return () => {
+      document.removeEventListener('keydown', handleEscape)
+      document.body.classList.remove('body-scroll-lock')
+    }
+  }, [service, handleClose])
+
+  if (!service && !isClosing) return null
+
+  const isConnected = service?.bage === 'Подключена'
+  const descriptionText = service?.modalDescription || service?.description
 
   const modal = (
-    <div className="service-modal-overlay" onClick={onClose} role="dialog" aria-modal="true" aria-labelledby="service-modal-title">
-      <div className="service-modal" onClick={(e) => e.stopPropagation()}>
+    <div className={`service-modal-overlay${isClosing ? ' service-modal-overlay--closing' : ''}`} onClick={handleClose} role="dialog" aria-modal="true" aria-labelledby="service-modal-title">
+      <div className={`service-modal${isClosing ? ' service-modal--closing' : ''}`} onClick={(e) => e.stopPropagation()}>
         <header className="service-modal__header">
           <h2 id="service-modal-title" className="service-modal__title">
             {service.title}
@@ -46,13 +44,10 @@ export function ServiceModal({ service, onClose, onToggle }) {
           <button
             type="button"
             className="service-modal__close"
-            onClick={onClose}
+            onClick={handleClose}
             aria-label="Закрыть"
           >
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-              <line x1="18" y1="6" x2="6" y2="18" />
-              <line x1="6" y1="6" x2="18" y2="18" />
-            </svg>
+            <CloseIcon />
           </button>
         </header>
 
@@ -62,25 +57,25 @@ export function ServiceModal({ service, onClose, onToggle }) {
           <div className="service-modal__benefit">
             <h3 className="service-modal__benefit-title">Выгода для поставщика</h3>
             <p className="service-modal__benefit-text">
-              {content.benefit ||
+              {service?.benefit ||
                 'Прирост собираемости платежей, снижение задолженности и дополнительные доходы за счёт подключённого сервиса.'}
             </p>
           </div>
 
           <div className="service-modal__footer-section">
             <div className="service-modal__tariff">
-              <div className="service-modal__tariff-price">{content.price || 'Бесплатно'}</div>
+              <div className="service-modal__tariff-price">{service?.price || 'Бесплатно'}</div>
               <Button
                 type="button"
                 variant={isConnected ? 'secondary' : 'primary'}
                 size="m"
                 className="service-modal__tariff-button"
-                onClick={() => onToggle && onToggle(service)}
+                onClick={() => onToggle?.(service)}
               >
                 {isConnected
                   ? 'Отключить'
-                  : content.priceValue
-                    ? `Подключить за ${content.priceValue}`
+                  : service?.priceValue
+                    ? `Подключить за ${service.priceValue}`
                     : 'Подключить'}
               </Button>
             </div>

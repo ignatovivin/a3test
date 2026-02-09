@@ -48,7 +48,7 @@ body.body-scroll-lock .cabinet-header-wrap {
   z-index: 99;
   border: none;
   padding: 0;
-  background: rgba(0, 0, 0, 0.4);
+  background: var(--overlay-bg);
   cursor: pointer;
 }
 
@@ -235,7 +235,7 @@ body.body-scroll-lock .cabinet-header-wrap {
   right: 0;
   bottom: 0;
   width: 100%;
-  background: var(--color-white);
+  background: var(--color-bg-card);
   z-index: 0;
   pointer-events: none;
 }
@@ -327,7 +327,7 @@ body.body-scroll-lock .cabinet-header-wrap {
 
 .cabinet-header__tag--brand {
   background: var(--color-primary);
-  color: var(--color-white);
+  color: var(--color-bg-card);
 }
 
 .cabinet-header__tag--cabinet {
@@ -346,7 +346,7 @@ body.body-scroll-lock .cabinet-header-wrap {
   align-items: center;
   gap: var(--header-left-gap);
   padding: var(--header-dropdown-padding);
-  background: var(--color-white);
+  background: var(--color-bg-card);
   border: none;
   border-radius: var(--radius-md);
   font-size: var(--text-body-font-size);
@@ -382,10 +382,10 @@ body.body-scroll-lock .cabinet-header-wrap {
   left: 0;
   right: 0;
   min-width: 100%;
-  background: var(--color-white);
+  background: var(--color-bg-card);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  box-shadow: var(--shadow-dropdown);
   z-index: 10;
   padding: 4px 0;
 }
@@ -399,7 +399,7 @@ body.body-scroll-lock .cabinet-header-wrap {
 .cabinet-header__dropdown-item {
   display: block;
   width: 100%;
-  padding: 10px 16px;
+  padding: var(--header-dropdown-padding);
   border: none;
   background: transparent;
   font-size: var(--text-body-font-size);
@@ -448,7 +448,7 @@ body.body-scroll-lock .cabinet-header-wrap {
   background: var(--color-bg-card);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  box-shadow: var(--shadow-dropdown);
   z-index: 20;
   padding: 4px 0;
 }
@@ -502,7 +502,7 @@ body.body-scroll-lock .cabinet-header-wrap {
   background: var(--color-bg-card);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  box-shadow: var(--shadow-dropdown);
   z-index: 10;
   padding: 4px 0;
 }
@@ -569,9 +569,9 @@ body.body-scroll-lock .cabinet-header-wrap {
 .cabinet-header__menu-item {
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: var(--menu-item-gap);
   width: 100%;
-  padding: 10px 16px;
+  padding: var(--header-dropdown-padding);
   border: none;
   background: transparent;
   font-size: var(--text-button-font-size);
@@ -762,7 +762,7 @@ body.body-scroll-lock .cabinet-header-wrap {
   align-items: stretch;
   justify-content: flex-end;
   padding: 0;
-  background: rgba(0, 0, 0, 0.4);
+  background: var(--overlay-bg);
   cursor: pointer;
   opacity: 0;
   animation: banks-modal-overlay-fade-in 0.18s ease-out forwards;
@@ -787,11 +787,11 @@ body.body-scroll-lock .cabinet-header-wrap {
   flex-direction: column;
   overflow: hidden;
   background: var(--color-bg-card);
-  border-radius: 16px 0 0 16px;
+  border-radius: var(--radius-xl) 0 0 var(--radius-xl);
   padding: 32px 24px 24px;
   cursor: default;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
-  opacity: 0;
+  box-shadow: var(--shadow-modal);
+  opacity: 1;
   transform: translateX(100%);
   animation: banks-modal-slide-in 0.2s ease-out forwards;
 }
@@ -824,23 +824,38 @@ body.body-scroll-lock .cabinet-header-wrap {
 
 @keyframes banks-modal-slide-in {
   from {
-    opacity: 0;
     transform: translateX(100%);
   }
   to {
-    opacity: 1;
     transform: translateX(0);
   }
 }
 
 @keyframes banks-modal-slide-out {
   from {
-    opacity: 1;
     transform: translateX(0);
   }
   to {
-    opacity: 0;
     transform: translateX(100%);
+  }
+}
+
+/* Мобильный вариант дровера — снизу вверх, скруглены верхние углы */
+@keyframes banks-modal-slide-in-mobile {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+@keyframes banks-modal-slide-out-mobile {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(100%);
   }
 }
 
@@ -862,6 +877,7 @@ body.body-scroll-lock .cabinet-header-wrap {
   align-items: center;
   align-self: stretch;
   flex-shrink: 0;
+  padding-bottom: 32px;
 }
 
 /* Прокручиваемая область: только список банков; кнопка «Подключить» остаётся внизу */
@@ -881,7 +897,7 @@ body.body-scroll-lock .cabinet-header-wrap {
   align-items: center;
   justify-content: flex-start;
   gap: 16px;
-  padding-top: 24px;
+  padding-top: 8px;
   margin-top: 8px;
 }
 
@@ -892,6 +908,41 @@ body.body-scroll-lock .cabinet-header-wrap {
 .banks-modal--success .banks-modal__footer .banks-modal__submit {
   flex: 1 1 auto;
   width: 100%;
+}
+
+@media (max-width: 640px) {
+  .banks-modal-overlay {
+    align-items: flex-end;
+    justify-content: center;
+  }
+
+  .banks-modal {
+    max-width: 100%;
+    height: 100vh;
+    height: 100dvh;
+    border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+    padding: 16px;
+    transform: translateY(100%);
+    animation: banks-modal-slide-in-mobile 0.2s ease-out forwards;
+  }
+
+  .banks-modal--success {
+    max-width: 100%;
+    border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+  }
+
+  .banks-modal--closing {
+    animation: banks-modal-slide-out-mobile 0.2s ease-in forwards;
+  }
+
+  .banks-modal__footer .banks-modal__submit {
+    flex: 1 1 auto;
+    width: 100%;
+  }
+
+  .banks-modal__header {
+    padding-bottom: 16px; /* компактнее на мобиле */
+  }
 }
 
 .banks-modal__submit--loading {
@@ -923,6 +974,8 @@ body.body-scroll-lock .cabinet-header-wrap {
   line-height: 1.3333333333;
   color: var(--color-text-primary);
   margin: 0;
+  display: flex;
+  align-items: center;
 }
 
 .banks-modal__close {
@@ -938,6 +991,7 @@ body.body-scroll-lock .cabinet-header-wrap {
   cursor: pointer;
   border-radius: var(--radius-sm);
   transition: color 0.15s, background 0.15s;
+  flex-shrink: 0;
 }
 
 .banks-modal__close:hover {
@@ -955,15 +1009,6 @@ body.body-scroll-lock .cabinet-header-wrap {
   flex-direction: column;
   align-self: stretch;
   gap: 10px;
-}
-
-.banks-modal__spacer {
-  height: 32px;
-  flex-shrink: 0;
-}
-
-.banks-modal--success .banks-modal__spacer {
-  height: 0;
 }
 
 .banks-modal__content--success {
@@ -1087,25 +1132,6 @@ body.body-scroll-lock .cabinet-header-wrap {
   .banks-modal__bank-rows {
     grid-template-columns: repeat(2, minmax(0, 1fr)); /* две карточки в ряд на телефоне */
   }
-
-  /* Drawer на мобильных: панель по правому краю, на всю высоту, меньше внутренние отступы */
-  .banks-modal-overlay {
-    padding: 0;
-  }
-
-  .banks-modal {
-    padding: 16px;
-    width: 100%;
-    max-width: 100%;
-    height: 100vh;
-    height: 100dvh; /* Safari iOS */
-    border-radius: 16px 0 0 16px;
-  }
-
-  .banks-modal__scroll {
-    margin: 0 -16px;
-    padding: 0 16px 16px;
-  }
 }
 
 .banks-modal__card--connected {
@@ -1181,7 +1207,7 @@ body.body-scroll-lock .cabinet-header-wrap {
   gap: 16px;
   padding: 20px 16px;
   min-height: 142px;
-  background: var(--color-white);
+  background: var(--color-bg-card);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-xl);
   overflow: hidden;
@@ -1288,11 +1314,11 @@ body.body-scroll-lock .cabinet-header-wrap {
   color: var(--color-on-primary);
 }
 
-/* Баннер справа: фиксированная высота, по вертикали по центру с текстом (как в референсе) */
+/* Не используются в текущей разметке слайдера (используется .cabinet-slider__image). Оставлено для возможной пагинации/баннера. */
 .cabinet-slider__banner {
   width: 220px;
   height: 192px;
-  border-radius: 16px;
+  border-radius: var(--radius-xl);
   flex-shrink: 0;
   overflow: hidden;
 }
@@ -1587,7 +1613,13 @@ body.body-scroll-lock .cabinet-header-wrap {
   align-items: center;
   justify-content: center;
   padding: 24px;
-  background: rgba(0, 0, 0, 0.4);
+  background: var(--overlay-bg);
+  opacity: 0;
+  animation: service-modal-overlay-fade-in 0.18s ease-out forwards;
+}
+
+.service-modal-overlay--closing {
+  animation: service-modal-overlay-fade-out 0.18s ease-in forwards;
 }
 
 @media (max-width: 640px) {
@@ -1600,12 +1632,19 @@ body.body-scroll-lock .cabinet-header-wrap {
   width: 100%;
   max-width: 530px;
   background: var(--color-bg-card);
-  border-radius: 6px;
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.18);
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-modal-center);
   padding: 24px;
   display: flex;
   flex-direction: column;
   gap: 16px;
+  opacity: 1;
+  transform: scale(0.95) translateY(8px);
+  animation: service-modal-slide-in 0.2s ease-out forwards;
+}
+
+.service-modal--closing {
+  animation: service-modal-slide-out 0.2s ease-in forwards;
 }
 
 .service-modal__header {
@@ -1679,7 +1718,7 @@ body.body-scroll-lock .cabinet-header-wrap {
   gap: 8px;
   padding: 16px;
   background: var(--color-bg-card-alt);
-  border-radius: 16px;
+  border-radius: var(--radius-xl);
 }
 
 .service-modal__benefit-title {
@@ -1731,6 +1770,42 @@ body.body-scroll-lock .cabinet-header-wrap {
   line-height: var(--text-caption3-line-height);
   color: var(--color-text-secondary);
   text-align: center;
+}
+
+@keyframes service-modal-overlay-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes service-modal-overlay-fade-out {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes service-modal-slide-in {
+  from {
+    transform: scale(0.95) translateY(8px);
+  }
+  to {
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes service-modal-slide-out {
+  from {
+    transform: scale(1) translateY(0);
+  }
+  to {
+    transform: scale(0.95) translateY(8px);
+  }
 }
 
 /* Карточка услуги — Figma node 336:8071: белый фон, бордер, иконка a3, заголовок Body M 600, описание Captions 3 */
@@ -1813,9 +1888,14 @@ body.body-scroll-lock .cabinet-header-wrap {
   height: 46px;
   padding: 0;
   box-sizing: border-box;
-  background: #FFFFFF;
+  background: var(--color-bg-card);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-xl);
+}
+
+.cabinet-connect-bank__btn {
+  width: 100%;
+  justify-content: center;
 }
 
 /* Вариант внутри блока подключённых банков — без собственного бордера, с разделителем сверху */

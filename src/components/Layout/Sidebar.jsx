@@ -1,15 +1,9 @@
 import { NavLink } from 'react-router-dom'
 import { Button } from '../Button/Button'
 import { ServiceCaptionIcon } from '../icons/ServiceCaptionIcon'
-import { SettingIcon } from '../icons/SettingIcon'
-import { CashIcon } from '../icons/CashIcon'
-import { PaymentIcon } from '../icons/PaymentIcon'
-import { QrIcon } from '../icons/QrIcon'
-import { CalendarIcon } from '../icons/CalendarIcon'
-import { FlatIcon } from '../icons/FlatIcon'
-import { NewIcon } from '../icons/NewIcon'
 import { PersonalIcon } from '../icons/PersonalIcon'
-import { navItems } from './navItems'
+import { NavIcon } from '../icons/NavIcon'
+import { navItems } from '../../constants/routes'
 
 export function Sidebar({ isOpen, onClose }) {
   return (
@@ -40,13 +34,7 @@ export function Sidebar({ isOpen, onClose }) {
             }
             onClick={onClose}
           >
-            {icon === 'flat' && <FlatIcon className="cabinet-sidebar__link-icon" />}
-            {icon === 'new' && <NewIcon className="cabinet-sidebar__link-icon" />}
-            {icon === 'setting' && <SettingIcon className="cabinet-sidebar__link-icon" />}
-            {icon === 'cash' && <CashIcon className="cabinet-sidebar__link-icon" />}
-            {icon === 'payment' && <PaymentIcon className="cabinet-sidebar__link-icon" />}
-            {icon === 'qr' && <QrIcon className="cabinet-sidebar__link-icon" />}
-            {icon === 'calendar' && <CalendarIcon className="cabinet-sidebar__link-icon" />}
+            <NavIcon icon={icon} className="cabinet-sidebar__link-icon" />
             {label}
           </NavLink>
         ))}

@@ -8,20 +8,19 @@
   --color-bg-page: #FCFCFC;        /* Day/Gray/5 */
   --color-bg-card: #FFFFFF;        /* Day/White */
   --color-bg-card-alt: #F9F9F9;    /* fill_FTRV1Y */
-  --color-border: #EEEEEE;        /* Day/Gray/10 */
-  --color-border-stroke: #EEEEEE;  /* Day/Gray/10, strokes */
+  --color-border: #EEEEEE;        /* Day/Gray/10 (в т.ч. strokes) */
   --color-text-muted: #D6D6D6;    /* Day/Gray/70 */
   --color-text-secondary: #7C8A9E; /* Day/Gray/90 */
   --color-text-primary: #2C2E2B;  /* Day/Gray/100 */
 
   /* ========== Цвета — Figma Day/Blue ========== */
-  --color-primary: #69A6F1;        /* Day/Blue/90 — кнопки, ссылки */
-  --color-primary-90: #69A6F1;     /* Day/Blue/90 — дефолт ghost-кнопки */
+  --color-primary: #69A6F1;        /* Day/Blue/90 — кнопки, ссылки, ghost */
+  --color-primary-90: var(--color-primary); /* alias для ghost-кнопок */
   --color-primary-80: #72ADF8;     /* Day/Blue/80 — ховер ghost-кнопки */
   --color-primary-dark: #4B8BDA;   /* Day/Blue/100 */
   --color-primary-light: #79B5FF;  /* Day/Blue/70 */
   --color-primary-tint: #E8F0FE;   /* Day/Blue/10 — светлый фон (теги, бейджи) */
-  --color-primary-10: #E8F0FE;     /* alias для Day/Blue/10 */
+  --color-primary-10: var(--color-primary-tint);
   --color-on-primary: #FFFFFF;    /* текст на синем */
 
   /* Day/Green */
@@ -33,7 +32,12 @@
   --color-button-secondary-hover-bg: rgba(105, 166, 241, 0.12); /* Day/Blue/90 лёгкий ховер */
   --color-bank-alfa: #CA3333;     /* fill_XLYR4O */
   --color-bank-ozon: #005BFF;     /* fill_4KH2OM */
-  --color-white: #FFFFFF;
+
+  /* Overlay и тени */
+  --overlay-bg: rgba(0, 0, 0, 0.4);
+  --shadow-dropdown: 0 4px 12px rgba(0, 0, 0, 0.08);
+  --shadow-modal: 0 8px 32px rgba(0, 0, 0, 0.12);
+  --shadow-modal-center: 0 12px 40px rgba(0, 0, 0, 0.18);
 
   /* ========== Типографика — Mont (локальные шрифты src/assets/fonts) ========== */
   --font-sans: "Mont", system-ui, -apple-system, "Segoe UI", sans-serif;

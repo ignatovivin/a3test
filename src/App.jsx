@@ -2,20 +2,11 @@ import { lazy, Suspense } from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { CabinetLayout } from './components/Layout/CabinetLayout'
 import { Dashboard } from './pages/Dashboard'
+import { placeholderRoutes } from './constants/routes'
 
 const PlaceholderPage = lazy(() =>
   import('./pages/PlaceholderPage').then((m) => ({ default: m.PlaceholderPage }))
 )
-
-const placeholderRoutes = [
-  { path: 'request', title: 'Оставить заявку', description: 'Форма заявки.' },
-  { path: 'payments', title: 'Реестры платежей', description: 'Реестры платежей.' },
-  { path: 'accruals', title: 'Реестры начислений', description: 'Реестры начислений.' },
-  { path: 'history', title: 'История платежей', description: 'История платежей.' },
-  { path: 'widget', title: 'Платежный виджет', description: 'Платежный виджет.' },
-  { path: 'validation', title: 'Настройка валидации', description: 'Настройка валидации.' },
-  { path: 'notifications', title: 'Уведомления', description: 'Раздел уведомлений.' },
-]
 
 function App() {
   return (
