@@ -1,6 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
 import { Button } from '../components/Button/Button'
-import { Bage } from '../components/Bage/Bage'
 import { BanksModal } from '../components/BanksModal/BanksModal'
 import { ServiceModal } from '../components/ServiceModal/ServiceModal'
 import { ChevronRightIcon } from '../components/icons/ChevronRightIcon'
@@ -164,10 +163,10 @@ export function Dashboard() {
         </section>
       </div>
 
-      {/* Блок «Услуги» — Figma node 336:8082: один смысловой блок (заголовок + карточки + кнопка) */}
+      {/* Блок «Ваши услуги» — Figma node 336:8082: один смысловой блок (заголовок + карточки + кнопка) */}
       <div className="cabinet-services-section" aria-labelledby="cabinet-services-title">
         <div className="cabinet-services-section__header">
-          <h3 id="cabinet-services-title" className="cabinet-block__title">Услуги</h3>
+          <h3 id="cabinet-services-title" className="cabinet-block__title">Ваши услуги</h3>
           <Button type="button" variant="ghost" size="s" className="cabinet-block__filter" aria-label="Все услуги">
             <span className="cabinet-block__filter-text">Все</span>
             <ChevronRightIcon className="cabinet-block__filter-chevron" />
@@ -179,25 +178,36 @@ export function Dashboard() {
               key={service.id}
               className="cabinet-service-card"
             >
-              <div className="cabinet-service-card__top">
-                <div className="cabinet-service-card__icon" aria-hidden>
-                  <img src={service.icon} alt="" width="32" height="32" />
+              <div className="cabinet-service-card__body">
+                <div className="cabinet-service-card__top">
+                  <div className="cabinet-service-card__icon" aria-hidden>
+                    <img src={service.icon} alt="" width="32" height="32" />
+                  </div>
                 </div>
-                {service.bage && (
-                  <Bage className="cabinet-service-card__bage">{service.bage}</Bage>
-                )}
+                <h4 className="cabinet-service-card__title">{service.title}</h4>
+                <p className="cabinet-service-card__description">{service.description}</p>
               </div>
-              <h4 className="cabinet-service-card__title">{service.title}</h4>
-              <p className="cabinet-service-card__description">{service.description}</p>
-              <Button
-                type="button"
-                variant="ghost"
-                size="s"
-                className="cabinet-service-card__link"
-                onClick={() => setActiveService(service)}
-              >
-                Подробнее
-              </Button>
+              {(service.price || service.priceValue) && (
+                <div className="cabinet-service-card__details">
+                  <div className="cabinet-service-card__meta">
+                    {service.price && (
+                      <div className="cabinet-service-card__price">{service.price}</div>
+                    )}
+                    {service.priceValue && (
+                      <div className="cabinet-service-card__meta-note">{service.priceValue}</div>
+                    )}
+                  </div>
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="s"
+                    className="cabinet-service-card__link"
+                    onClick={() => setActiveService(service)}
+                  >
+                    Подробнее
+                  </Button>
+                </div>
+              )}
             </div>
           ))}
         </div>

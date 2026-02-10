@@ -1349,7 +1349,7 @@ body.body-scroll-lock .cabinet-header-wrap {
   gap: 8px;
 }
 
-/* Блок «Подключенные банки» без фона и бордера, без паддингов; 8px между заголовком и блоком карточек */
+/* Блок «Подключенные банки» без фона и бордера, без паддингов */
 .cabinet-banks-section .cabinet-block {
   background: transparent;
   border: none;
@@ -1357,7 +1357,6 @@ body.body-scroll-lock .cabinet-header-wrap {
   padding-right: 0;
   padding-bottom: 0;
   padding-left: 0;
-  gap: 8px;
 }
 
 /* ========== Block «Подключенные банки» — Figma node 219:4011 ========== */
@@ -1366,7 +1365,7 @@ body.body-scroll-lock .cabinet-header-wrap {
   display: flex;
   flex-direction: column;
   align-self: stretch;
-  gap: 16px;
+  gap: 12px;
   padding: 16px 20px 16px;
   background: var(--color-bg-card);
   border: 1px solid var(--color-border);
@@ -1426,9 +1425,10 @@ body.body-scroll-lock .cabinet-header-wrap {
 
 .cabinet-block__filter-chevron {
   flex-shrink: 0;
+  width: 24px;
+  height: 24px;
 }
 
-/* Обёртка карточек — Figma 369-8395 Header: белый фон, бордер Gray/10, radius 16px, padding 16px */
 .cabinet-block__banks-wrap {
   display: flex;
   flex-direction: column;
@@ -1440,7 +1440,6 @@ body.body-scroll-lock .cabinet-header-wrap {
   border-radius: var(--radius-xl);
 }
 
-/* Figma 413-7404: grid 3 колонки, ячейки растягиваются по высоте ряда */
 .cabinet-block__banks {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -1461,10 +1460,8 @@ body.body-scroll-lock .cabinet-header-wrap {
     justify-content: flex-start;
     gap: 16px;
   }
-
 }
 
-/* Figma 413-7404: Activity Details — row stretch, gap 8px, padding 16px, fill #F9F9F9, radius 12px */
 .cabinet-bank-card {
   display: flex;
   flex-direction: column;
@@ -1475,7 +1472,6 @@ body.body-scroll-lock .cabinet-header-wrap {
   min-width: 0;
 }
 
-/* Иконка банка: 32×32, без паддингов, radius 8px */
 .cabinet-bank-card__logo {
   width: 32px;
   height: 32px;
@@ -1502,12 +1498,11 @@ body.body-scroll-lock .cabinet-header-wrap {
   margin: 0;
 }
 
-/* ========== Блок «Услуги» — Figma node 336:8082: без фона контейнера, карточки на всю ширину ========== */
 .cabinet-services-section {
   display: flex;
   flex-direction: column;
   align-self: stretch;
-  gap: 8px;
+  gap: 12px;
   /* без фона и бордера; отступ сверху только от gap родителя (.cabinet-content 24px) */
 }
 
@@ -1527,22 +1522,23 @@ body.body-scroll-lock .cabinet-header-wrap {
   align-self: stretch;
 }
 
-/* На мобильных — без слайдера: карточки услуг идут вниз списком */
 @media (max-width: 640px) {
   .cabinet-services-section__grid {
-    margin-right: 0;
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
     width: 100%;
     box-sizing: border-box;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    overflow: visible;
-    scroll-snap-type: none;
+    overflow-x: auto;
+    padding-right: 16px;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
   }
 
   .cabinet-services-section__grid .cabinet-service-card {
     flex: 0 0 auto;
-    width: 100%;
+    width: calc(100% - 48px); /* одна карточка + небольшой кусок следующей */
+    scroll-snap-align: start;
   }
 }
 
@@ -1750,16 +1746,20 @@ body.body-scroll-lock .cabinet-header-wrap {
   }
 }
 
-/* Карточка услуги — Figma node 336:8071: белый фон, бордер, иконка a3, заголовок Body M 600, описание Captions 3 */
 .cabinet-service-card {
   display: flex;
   flex-direction: column;
   gap: 0;
-  padding: 16px;
+  padding: 24px 8px 8px;
   background: var(--color-bg-card);
   border: 1px solid var(--color-border);
-  border-radius: var(--radius-lg);
+  border-radius: var(--radius-xl);
   min-width: 0;
+}
+
+.cabinet-service-card__body {
+  flex: 1 1 auto;
+  padding: 0 16px;
 }
 
 /* Верхняя строка: иконка слева, bage справа, на одном уровне по вертикали */
@@ -1787,11 +1787,6 @@ body.body-scroll-lock .cabinet-header-wrap {
   display: block;
 }
 
-/* Стили бейджа — в компоненте Bage; здесь только раскладка в карточке */
-.cabinet-service-card__bage {
-  flex-shrink: 0;
-}
-
 /* Заголовок карточки — Body M, отступ от верхней строки 32px */
 .cabinet-service-card__title {
   font-size: var(--text-body-font-size);
@@ -1799,7 +1794,7 @@ body.body-scroll-lock .cabinet-header-wrap {
   line-height: var(--text-body-line-height);
   color: var(--color-text-primary);
   margin: 0;
-  margin-top: 24px;
+  margin-top: 16px;
 }
 
 /* Подзаголовок карточки — Caption 2, 8px от заголовка */
@@ -1809,14 +1804,50 @@ body.body-scroll-lock .cabinet-header-wrap {
   line-height: var(--text-caption2-line-height);
   color: var(--color-text-secondary);
   margin: 0;
-  margin-top: 8px;
-  margin-bottom: auto; /* чтобы кнопка внизу карточки была на одном уровне */
+  margin-top: 4px;
+}
+
+.cabinet-service-card__details {
+  margin-top: 20px;
+  padding: 16px 16px 12px;
+  border-radius: var(--radius-lg);
+  background: var(--color-bg-card-alt);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.cabinet-service-card__meta {
+  display: flex;
+  flex-direction: column;
+}
+
+.cabinet-service-card__price {
+  font-size: var(--text-subtitle2-font-size);
+  font-weight: var(--text-subtitle2-font-weight);
+  line-height: var(--text-subtitle2-line-height);
+  color: var(--color-text-primary);
+}
+
+.cabinet-service-card__meta-note {
+  font-size: var(--text-caption3-font-size);
+  font-weight: var(--text-caption3-font-weight);
+  line-height: var(--text-caption3-line-height);
+  color: var(--color-text-secondary);
 }
 
 /* Кнопка «Подробнее» в карточке услуги — ALink из фигмы */
 .cabinet-service-card__link {
-  margin-top: 16px;
+  margin-top: 0;
   align-self: flex-start;
+  padding: 0;
+  min-height: auto;
+}
+
+/* Точный оверрайд для btn btn--ghost btn--s внутри карточки услуги */
+.cabinet-service-card .cabinet-service-card__link.btn--s {
+  padding: 0;
+  min-height: auto;
 }
 
 /* Кнопка «Подключить банк» в сетке банков — как карточка: та же ширина и высота, плюс-иконка + текст по центру */
