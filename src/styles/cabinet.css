@@ -1114,17 +1114,15 @@ body.body-scroll-lock .cabinet-header-wrap {
 .banks-modal__card--available {
   background: var(--color-bg-card);
   cursor: pointer;
-  transition: border-color 0.15s, box-shadow 0.15s;
+  transition: border-color 0.15s;
 }
 
 .banks-modal__card--available:hover {
   border-color: var(--color-primary-80);
-  box-shadow: 0 0 0 1px var(--color-primary-80);
 }
 
 .banks-modal__card--available-selected {
   border-color: var(--color-primary);
-  box-shadow: 0 0 0 1px var(--color-primary);
   background: var(--color-primary-10);
 }
 
@@ -1907,9 +1905,8 @@ body.body-scroll-lock .cabinet-header-wrap {
 
 .cabinet-block__banks-wrap .cabinet-connect-bank:hover {
   color: var(--color-primary-80);
-  background: var(--color-primary-10);
   border-color: var(--color-primary);
-  box-shadow: 0 0 0 1px var(--color-primary);
+  box-shadow: none;
 }
 
 .cabinet-block__banks-wrap .cabinet-connect-bank:focus-visible {

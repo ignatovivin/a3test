@@ -8,7 +8,8 @@
   --color-bg-page: #FCFCFC;        /* Day/Gray/5 */
   --color-bg-card: #FFFFFF;        /* Day/White */
   --color-bg-card-alt: #F9F9F9;    /* fill_FTRV1Y */
-  --color-border: #EEEEEE;        /* Day/Gray/10 (в т.ч. strokes) */
+  --color-gray-50: #F2F2F2;        /* Day/Gray/50 */
+  --color-border: var(--color-gray-50); /* Day/Gray/50 (в т.ч. strokes, раньше 10) */
   --color-text-muted: #D6D6D6;    /* Day/Gray/70 */
   --color-text-secondary: #7C8A9E; /* Day/Gray/90 */
   --color-text-primary: #2C2E2B;  /* Day/Gray/100 */
