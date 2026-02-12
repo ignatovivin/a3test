@@ -1929,12 +1929,14 @@ body.body-scroll-lock .cabinet-header-wrap {
   align-items: center;
   justify-content: center;
   min-width: 0;
+  font-weight: 400;
 }
 
 /* Текст кнопок чёрный; переопределяем .btn--ghost (Button.css может грузиться после) */
 .cabinet-quick-actions__bar .cabinet-quick-actions__btn,
 .cabinet-quick-actions__bar .cabinet-quick-actions__btn:hover:not(:disabled) {
   color: var(--color-text-primary) !important;
+  font-weight: 400 !important;
 }
 
 .cabinet-quick-actions__btn {
