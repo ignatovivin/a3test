@@ -3,11 +3,11 @@
  */
 
 export const CONNECTED_BANKS = [
-  { name: 'Альфа-Банк', logo: '/bank-alfa.svg' },
-  { name: 'Озон-Банк', logo: '/bank-ozon.svg' },
-  { name: 'Тбанк', logo: '/bank-tbank.svg' },
-  { name: 'Райффайзен', logo: '/bank-raiff.svg' },
-  { name: 'ВТБ', logo: '/bank-vtb.svg' },
+  { name: 'Альфа-Банк', logo: '/bank-alfa.svg', date: '22.01.2026', amount: '258 345,00', growth: '+17%' },
+  { name: 'Озон-Банк', logo: '/bank-ozon.svg', date: '22.01.2026', amount: '258 345,00', growth: '+17%' },
+  { name: 'Тбанк', logo: '/bank-tbank.svg', date: '22.01.2026', amount: '258 345,00', growth: '+17%' },
+  { name: 'Райффайзен', logo: '/bank-raiff.svg', date: '22.01.2026', amount: '258 345,00', growth: '+17%' },
+  { name: 'ВТБ', logo: '/bank-vtb.svg', date: '22.01.2026', amount: '258 345,00', growth: '+17%' },
 ]
 
 export const AVAILABLE_BANKS = [

@@ -1,215 +1,236 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useRef } from 'react'
 import { Button } from '../components/Button/Button'
 import { BanksModal } from '../components/BanksModal/BanksModal'
 import { ServiceModal } from '../components/ServiceModal/ServiceModal'
+import { MetricsChart } from '../components/MetricsChart/MetricsChart'
+import { QuickActions } from '../components/QuickActions/QuickActions'
 import { ChevronRightIcon } from '../components/icons/ChevronRightIcon'
 import { PlusIcon } from '../components/icons/PlusIcon'
 import { CONNECTED_BANKS } from '../constants/banks'
 import { SERVICES } from '../constants/services'
-import { SLIDES, SLIDER_AUTOPLAY_MS, MOBILE_BREAKPOINT } from '../constants/slider'
-import { SLIDER_TRANSITION_MS, SLIDER_TRANSITION_SAFETY_MS } from '../constants/timing'
-
-/* Слайды + клон первого в конце для бесконечного цикла (без перемотки справа налево) */
-const SLIDES_WITH_CLONE = [...SLIDES, SLIDES[0]]
+import { EVENTS } from '../constants/events'
 
 export function Dashboard() {
-  const [currentSlide, setCurrentSlide] = useState(0)
-  const [isJumping, setIsJumping] = useState(false)
   const [banksModalOpen, setBanksModalOpen] = useState(false)
-  const [isMobile, setIsMobile] = useState(false)
   const [activeService, setActiveService] = useState(null)
-  const listRef = useRef(null)
+  const servicesGridRef = useRef(null)
+  const [isDragging, setIsDragging] = useState(false)
+  const [startX, setStartX] = useState(0)
+  const [scrollLeft, setScrollLeft] = useState(0)
 
-  useEffect(() => {
-    const mql = window.matchMedia(`(max-width: ${MOBILE_BREAKPOINT}px)`)
-    const handle = () => setIsMobile(mql.matches)
-    handle()
-    mql.addEventListener('change', handle)
-    return () => mql.removeEventListener('change', handle)
-  }, [])
-
-  /* Автовоспроизведение: с последнего переходим на клон первого, затем мгновенно на первый */
-  useEffect(() => {
-    const id = setInterval(() => {
-      setCurrentSlide((prev) => {
-        if (prev >= SLIDES.length - 1) return SLIDES.length /* клон первого */
-        return prev + 1
-      })
-    }, SLIDER_AUTOPLAY_MS)
-    return () => clearInterval(id)
-  }, [])
-
-  /* После анимации на клон первого — мгновенно сброс на первый без анимации (без перемотки) */
-  const handleTransitionEnd = (e) => {
-    if (e.target !== listRef.current || e.propertyName !== 'transform') return
-    if (currentSlide !== SLIDES.length) return
-    setIsJumping(true)
-    setCurrentSlide(0)
+  const handleMouseDown = (e) => {
+    if (!servicesGridRef.current) return
+    setIsDragging(true)
+    setStartX(e.pageX - servicesGridRef.current.offsetLeft)
+    setScrollLeft(servicesGridRef.current.scrollLeft)
   }
 
-  /* Страховка: если transitionend не сработал (reduced motion и т.д.), сброс через длительность анимации */
-  useEffect(() => {
-    if (currentSlide !== SLIDES.length) return
-    const t = setTimeout(() => {
-      setIsJumping(true)
-      setCurrentSlide(0)
-    }, SLIDER_TRANSITION_MS + SLIDER_TRANSITION_SAFETY_MS)
-    return () => clearTimeout(t)
-  }, [currentSlide])
+  const handleMouseMove = (e) => {
+    if (!isDragging || !servicesGridRef.current) return
+    e.preventDefault()
+    const x = e.pageX - servicesGridRef.current.offsetLeft
+    const walk = (x - startX) * 0.8
+    servicesGridRef.current.scrollLeft = scrollLeft - walk
+  }
 
-  useEffect(() => {
-    if (!isJumping) return
-    const raf = requestAnimationFrame(() => {
-      requestAnimationFrame(() => setIsJumping(false))
-    })
-    return () => cancelAnimationFrame(raf)
-  }, [isJumping])
+  const handleMouseUp = () => {
+    setIsDragging(false)
+  }
+
+  const handleMouseLeave = () => {
+    setIsDragging(false)
+  }
 
   return (
     <>
       <BanksModal isOpen={banksModalOpen} onClose={() => setBanksModalOpen(false)} />
 
-      {/* Slider — Figma node 219:3927, автовоспроизведение, зацикленный */}
-      <section className="cabinet-slider" aria-label="Слайдер">
-        <div className="cabinet-slider__track">
-          <div
-            ref={listRef}
-            className="cabinet-slider__list"
-            style={{
-              transform: `translateX(-${currentSlide * 100}%)`,
-              transition: isJumping ? 'none' : undefined,
-            }}
-            role="list"
-            onTransitionEnd={handleTransitionEnd}
-          >
-            {SLIDES_WITH_CLONE.map((slide, index) => (
-              <div
-                key={index}
-                className="cabinet-slider__slide"
-                role="listitem"
-                aria-hidden={index !== currentSlide}
-              >
-                <div className="cabinet-slider__inner">
-                  <div className="cabinet-slider__content">
-                    <div className="cabinet-slider__text">
-                      <div className="cabinet-slider__text-block">
-                        <h4 className="cabinet-slider__title">
-                          {isMobile && slide.title === 'Единый реестр платежей' ? 'Реестр платежей' : slide.title}
-                        </h4>
-                        <p className="cabinet-slider__subtitle">{slide.subtitle}</p>
-                      </div>
-                    </div>
-                    <div className="cabinet-slider__actions">
-                      <Button type="button" variant="primary" size="m">
-                        {slide.buttonText}
-                      </Button>
-                    </div>
-                  </div>
-                  <img
-                    src="/slider-hero.png"
-                    alt=""
-                    className="cabinet-slider__image"
-                    width={220}
-                    height={192}
-                  />
+      {/* Двухколоночный layout */}
+      <div className="cabinet-content__columns">
+        {/* Левая колонка */}
+        <div className="cabinet-content__column">
+          {/* Быстрые действия — Figma Frame 194 (487-11842) */}
+          <QuickActions />
+
+          {/* Блок «Ключевые показатели» — Figma node 476-9645 */}
+          <MetricsChart />
+
+          {/* Блок «Заявка на подключение» — Figma node 476-9790 */}
+          <div className="cabinet-request-container">
+            <div className="cabinet-request-container__header">
+              <h3 className="cabinet-request-container__title">Заявка на подключение</h3>
+              <Button type="button" variant="ghost" size="s" className="cabinet-block__filter" aria-label="Все заявки">
+                <span className="cabinet-block__filter-text">Все</span>
+                <ChevronRightIcon className="cabinet-block__filter-chevron" />
+              </Button>
+            </div>
+            <div className="cabinet-request-container__content">
+              <div className="cabinet-request-container__info">
+                <div className="cabinet-request-container__info-content">
+                  <h4 className="cabinet-request-container__info-title">Подключение услуг ЖКХ</h4>
+                  <p className="cabinet-request-container__info-subtitle">Заявка № 596013843254 от 10.08.2023</p>
                 </div>
               </div>
-            ))}
+              <div className="cabinet-request-container__status">
+                <div className="cabinet-request-container__progress-bar">
+                  <div className="cabinet-request-container__progress-segment cabinet-request-container__progress-segment--active" />
+                  <div className="cabinet-request-container__progress-segment" />
+                  <div className="cabinet-request-container__progress-segment" />
+                </div>
+                <div className="cabinet-request-container__status-labels">
+                  <span className="cabinet-request-container__status-label cabinet-request-container__status-label--active">Создана</span>
+                  <span className="cabinet-request-container__status-label">В работе</span>
+                  <span className="cabinet-request-container__status-label">Выполнена</span>
+                </div>
+              </div>
+            </div>
           </div>
-        </div>
-      </section>
 
-      {/* Один смысловой блок: подключенные банки + кнопка (gap 8) */}
-      <div className="cabinet-banks-section">
-        <section className="cabinet-block">
-          <div className="cabinet-block__header">
-            <h3 className="cabinet-block__title">Подключенные банки</h3>
-            {/* Кнопка «Все» — Button Ghost S + фон как в Figma node 219-4014 */}
-            <Button
-              type="button"
-              variant="ghost"
-              size="s"
-              className="cabinet-block__filter"
-              aria-label="Фильтр: Все"
-              onClick={() => setBanksModalOpen(true)}
+          {/* Блок «Ваши услуги» — Figma node 336:8082: один смысловой блок (заголовок + карточки + кнопка) */}
+          <div className="cabinet-services-section" aria-labelledby="cabinet-services-title">
+            <div className="cabinet-services-section__header">
+              <h3 id="cabinet-services-title" className="cabinet-block__title">Ваши услуги</h3>
+              <Button type="button" variant="ghost" size="s" className="cabinet-block__filter" aria-label="Все услуги">
+                <span className="cabinet-block__filter-text">Все</span>
+                <ChevronRightIcon className="cabinet-block__filter-chevron" />
+              </Button>
+            </div>
+            <div
+              className="cabinet-services-section__grid"
+              ref={servicesGridRef}
+              onMouseDown={handleMouseDown}
+              onMouseMove={handleMouseMove}
+              onMouseUp={handleMouseUp}
+              onMouseLeave={handleMouseLeave}
+              style={{ cursor: isDragging ? 'grabbing' : 'grab' }}
             >
-              <span className="cabinet-block__filter-text">Все</span>
-              <ChevronRightIcon className="cabinet-block__filter-chevron" />
-            </Button>
-          </div>
-          <div className="cabinet-block__banks-wrap">
-            <div className="cabinet-block__banks" role="list">
-              {CONNECTED_BANKS.map((bank) => (
-                <div key={bank.name} className="cabinet-bank-card" role="listitem">
-                  <div className="cabinet-bank-card__logo" aria-hidden>
-                    <img src={bank.logo} alt="" width="32" height="32" />
+              {SERVICES.map((service) => (
+                <div
+                  key={service.id}
+                  className="cabinet-service-card"
+                >
+                  <div className="cabinet-service-card__body">
+                    <div className="cabinet-service-card__top">
+                      <div className="cabinet-service-card__icon" aria-hidden>
+                        <img src={service.icon} alt="" width="32" height="32" />
+                      </div>
+                    </div>
+                    <h4 className="cabinet-service-card__title">{service.title}</h4>
+                    <p className="cabinet-service-card__description">{service.description}</p>
                   </div>
-                  <span className="cabinet-bank-card__name">{bank.name}</span>
+                  {(service.price || service.priceValue) && (
+                    <div className="cabinet-service-card__details">
+                      <div className="cabinet-service-card__meta">
+                        {service.price && (
+                          <div className="cabinet-service-card__price">{service.price}</div>
+                        )}
+                        {service.priceValue && (
+                          <div className="cabinet-service-card__meta-note">{service.priceValue}</div>
+                        )}
+                      </div>
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        size="s"
+                        className="cabinet-service-card__link"
+                        onClick={() => setActiveService(service)}
+                      >
+                        Подробнее
+                      </Button>
+                    </div>
+                  )}
                 </div>
               ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Правая колонка */}
+        <div className="cabinet-content__column">
+          {/* Промо-баннер над подключенными банками — Figma Promo Container 476-9871 */}
+          <section className="cabinet-promo-banner" aria-label="Новая услуга Household">
+            <div className="cabinet-promo-banner__content">
+              <h3 className="cabinet-promo-banner__title">Новая услуга Household</h3>
+              <p className="cabinet-promo-banner__subtitle">Подключай автоматический поиск и оплату ЖКУ</p>
+            </div>
+          </section>
+
+          {/* Блок «Подключенные банки» — Figma node 476-9793 */}
+          <div className="cabinet-banks-container">
+            <div className="cabinet-banks-container__header">
+              <h3 className="cabinet-banks-container__title">Подключенные банки</h3>
               <button
                 type="button"
-                className="cabinet-connect-bank"
+                className="cabinet-banks-container__nav-btn"
+                aria-label="Все банки"
+                onClick={() => setBanksModalOpen(true)}
+              >
+                <ChevronRightIcon />
+              </button>
+            </div>
+            <div className="cabinet-banks-container__list">
+              <div className="cabinet-banks-container__header-row">
+                <span className="cabinet-banks-container__header-label">Топ по объему</span>
+                <span className="cabinet-banks-container__header-label">Объем, ₽</span>
+              </div>
+              <div className="cabinet-banks-container__cards">
+                {CONNECTED_BANKS.map((bank) => (
+                  <div key={bank.name} className="cabinet-banks-container__card">
+                    <div className="cabinet-banks-container__card-left">
+                      <div className="cabinet-banks-container__card-logo" aria-hidden>
+                        <img src={bank.logo} alt="" width="32" height="32" />
+                      </div>
+                      <div className="cabinet-banks-container__card-info">
+                        <span className="cabinet-banks-container__card-name">{bank.name}</span>
+                        {bank.date && <span className="cabinet-banks-container__card-date">{bank.date}</span>}
+                      </div>
+                    </div>
+                    <div className="cabinet-banks-container__card-right">
+                      {bank.amount && <span className="cabinet-banks-container__card-amount">{bank.amount}</span>}
+                      {bank.growth && (
+                        <span className="cabinet-banks-container__card-growth">{bank.growth}</span>
+                      )}
+                    </div>
+                  </div>
+                ))}
+              </div>
+              <button
+                type="button"
+                className="cabinet-banks-container__connect"
                 onClick={() => setBanksModalOpen(true)}
                 aria-label="Подключить банк"
               >
-                <span className="cabinet-connect-bank__icon" aria-hidden>
+                <span className="cabinet-banks-container__connect-icon" aria-hidden>
                   <PlusIcon />
                 </span>
-                <span className="cabinet-connect-bank__text">Подключить банк</span>
+                <span className="cabinet-banks-container__connect-text">Подключить банк</span>
               </button>
             </div>
           </div>
-        </section>
-      </div>
 
-      {/* Блок «Ваши услуги» — Figma node 336:8082: один смысловой блок (заголовок + карточки + кнопка) */}
-      <div className="cabinet-services-section" aria-labelledby="cabinet-services-title">
-        <div className="cabinet-services-section__header">
-          <h3 id="cabinet-services-title" className="cabinet-block__title">Ваши услуги</h3>
-          <Button type="button" variant="ghost" size="s" className="cabinet-block__filter" aria-label="Все услуги">
-            <span className="cabinet-block__filter-text">Все</span>
-            <ChevronRightIcon className="cabinet-block__filter-chevron" />
-          </Button>
-        </div>
-        <div className="cabinet-services-section__grid">
-          {SERVICES.map((service) => (
-            <div
-              key={service.id}
-              className="cabinet-service-card"
-            >
-              <div className="cabinet-service-card__body">
-                <div className="cabinet-service-card__top">
-                  <div className="cabinet-service-card__icon" aria-hidden>
-                    <img src={service.icon} alt="" width="32" height="32" />
-                  </div>
-                </div>
-                <h4 className="cabinet-service-card__title">{service.title}</h4>
-                <p className="cabinet-service-card__description">{service.description}</p>
-              </div>
-              {(service.price || service.priceValue) && (
-                <div className="cabinet-service-card__details">
-                  <div className="cabinet-service-card__meta">
-                    {service.price && (
-                      <div className="cabinet-service-card__price">{service.price}</div>
-                    )}
-                    {service.priceValue && (
-                      <div className="cabinet-service-card__meta-note">{service.priceValue}</div>
-                    )}
-                  </div>
-                  <Button
-                    type="button"
-                    variant="ghost"
-                    size="s"
-                    className="cabinet-service-card__link"
-                    onClick={() => setActiveService(service)}
-                  >
-                    Подробнее
-                  </Button>
-                </div>
-              )}
+          {/* Блок «События» — Figma node 476-9794 */}
+          <div className="cabinet-events-container">
+            <div className="cabinet-events-container__header">
+              <h3 className="cabinet-events-container__title">События</h3>
+              <button
+                type="button"
+                className="cabinet-events-container__nav-btn"
+                aria-label="Все события"
+              >
+                <ChevronRightIcon />
+              </button>
             </div>
-          ))}
+            <div className="cabinet-events-container__list">
+              {EVENTS.map((event) => (
+                <div key={event.id} className="cabinet-events-container__item">
+                  <div className="cabinet-events-container__details">
+                    <span className="cabinet-events-container__title-text">{event.title}</span>
+                    <span className="cabinet-events-container__time">{event.time}</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
       <ServiceModal service={activeService} onClose={() => setActiveService(null)} />
